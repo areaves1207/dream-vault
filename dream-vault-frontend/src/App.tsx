@@ -1,12 +1,12 @@
 import { useState } from 'react'
-import Card from './components/DreamCard'
+import Card from './components/DreamCard/DreamCard.tsx'
 import './App.css'
 
 function App() {
 
   return (
     <>
-      <Card></Card>
+      <Card title="Testing Title" description='Testing Description'></Card>
     </>
   )
 }
