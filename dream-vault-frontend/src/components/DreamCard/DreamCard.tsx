@@ -1,26 +1,40 @@
 import styles from './DreamCard.module.css';
 import CardTitle from './DreamCardTitle'
 import CardDesc from './DreamCardDescription'
+import CardMenu from './CardMenu'
+import { useState } from "react"
 
-type CardInfo = {
+type CardProps = {
     title: string;
     description: string;
+    onEdit: ()=> void;
+    onDelete: ()=> void;
 };
 
-function DreamCard({title, description} : CardInfo){
+function DreamCard({title, description, onEdit, onDelete} : CardProps){
+    const [isMenuOpen, setMenuOpen] = useState(false);
+    
     return(
-    <>
-    {/* <div className={styles.cardList}> */}
-        <div className={styles.card}>
-            <button className={styles.menuButton}>&#x22EE;</button>
-            <div className={styles.cardInfo}>
-                <CardTitle text={title}></CardTitle>
-                <hr></hr>
-                <CardDesc text={description}></CardDesc>
+    <div className={styles.card}>
+        <button className={styles.menuButton} onClick={() => setMenuOpen((prev)=>!prev)} >&#x22EE;</button>
+
+        {isMenuOpen &&
+            <div className={styles.cardMenu}> 
+                <CardMenu
+                    onEdit={()=>onEdit}
+                    onDelete={()=>onDelete}
+                    onClose={()=>setMenuOpen(false)}
+                />
             </div>
-        </div>        
-    {/* </div> */}
-    </>
+
+        }
+
+        <div className={styles.cardInfo}>
+            <CardTitle text={title}></CardTitle>
+            <hr></hr>
+            <CardDesc text={description}></CardDesc>
+        </div>
+    </div>        
     )
 }
 

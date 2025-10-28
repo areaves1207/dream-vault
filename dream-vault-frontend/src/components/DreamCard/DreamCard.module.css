@@ -5,10 +5,26 @@
     border-radius: 0.5rem;
     padding: 5vh;
     padding-top: 5px;
+    position: relative;
 }
 
 .menuButton{
     display: flex;
     justify-content:flex-end;
     margin-left: auto;
+    position: absolute;
+    right: 5px;
+    z-index: 11;
+}
+
+.menuButton:hover{
+    cursor: pointer;
+}
+
+.cardMenu{
+    margin-left: auto;
+    top:25px;
+    right: 5px;
+    position: absolute;
+    z-index: 10;
 }

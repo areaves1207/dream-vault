@@ -1,0 +1,13 @@
+.card{
+    border: 2px;
+    border-color: var(--color-border);
+    border-style: solid;
+    border-radius: 0.5rem;
+    padding: 5vh;
+
+    text-align: center;
+    font-size: xx-large;
+    font: bolder;
+    color: white;
+    background-color: var(--color-secondary);
+}
