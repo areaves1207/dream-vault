@@ -1,0 +1,14 @@
+.card{
+    border: 2px;
+    border-color: var(--color-border);
+    border-style: solid;
+    border-radius: 0.5rem;
+    padding: 5vh;
+    padding-top: 5px;
+}
+
+.menuButton{
+    display: flex;
+    justify-content:flex-end;
+    margin-left: auto;
+}
