@@ -1,15 +1,18 @@
 import { useState } from 'react'
-import Card from './components/DreamCard/DreamCard.tsx'
+import Cards from './components/DreamCard/DreamCardList.tsx'
 import Header from './components/Header.tsx'
 import './App.css'
+import styles from './App.module.css'
 
 function App() {
 
   return (
     <>
       <Header/>
-      <br></br>
-      <Card title="Testing Title" description='Testing Description'></Card>
+      
+      <div className={styles.cardList}>
+        <Cards></Cards>
+      </div>
     </>
   )
 }
