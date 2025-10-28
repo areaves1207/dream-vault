@@ -1,10 +1,13 @@
 import { useState } from 'react'
 import Cards from './components/DreamCard/DreamCardList.tsx'
+import DreamCard from './components/DreamCard/DreamCard.tsx'
 import Header from './components/Header.tsx'
 import './App.css'
 import styles from './App.module.css'
 
+
 function App() {
+
 
   return (
     <>
