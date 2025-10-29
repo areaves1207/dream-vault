@@ -1,16 +1,21 @@
 import styles from "./DreamInput.module.css"
 import { useState } from 'react';
 
+export type DreamCardProps = {
+    id: number,
+    title: string,
+    description: string,
+}
+
 type DreamInputProps = {
-    initTitle: string;
-    initDescription: string;
-    save: (title: string, description: string) => void;
+    card: DreamCardProps;
+    save: (card: DreamCardProps) => void;
     cancel: () => void;
 };
 
-export default function DreamInput({initTitle, initDescription, save, cancel}: DreamInputProps){
-    const [title, setTitle] = useState(initTitle);
-    const [description, setDescription] = useState(initDescription);
+export default function DreamInput({card, save, cancel}: DreamInputProps){
+    const [title, setTitle] = useState(card.title);
+    const [description, setDescription] = useState(card.description);
 
     return(
         <div className={styles.dreamInput}>
@@ -27,7 +32,7 @@ export default function DreamInput({initTitle, initDescription, save, cancel}: D
             />
 
             <div className={styles.buttons}>
-                <button onClick={() => save(title, description)}>Save</button>
+                <button onClick={() => save(card)}>Save</button>
                 <button onClick={() => cancel()}>Cancel</button>
             </div>
         </div>

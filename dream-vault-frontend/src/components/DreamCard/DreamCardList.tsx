@@ -1,50 +1,35 @@
 import styles from "./DreamCardList.module.css"
 import DreamCard from "./DreamCard.tsx"
-import AddDreamCard from "../NewDreamCard.tsx"
-import { useState } from 'react'
 
-type DreamCard = {
+export type Dream = {
   id: number;
   title: string;
   description: string;
 };
 
+type CardListProps = {
+    cards: Dream[];
+    addCard: () => void;
+    editCard: (card: Dream) => void;
+    deleteCard: (id: number)=> void;
+};
 
-function DreamCardList(){
-    const [cards, setCards] = useState<DreamCard[]>([]);
-
-    function addCard(){
-        const newCard: DreamCard={
-        id: Date.now(),
-        title:"testing",
-        description: "testing_desc"
-        };
-
-        setCards(prev => [...prev, newCard]);
-    }
-
-    function deleteCard(id: number){
-        setCards(prev => prev.filter(card => card.id !== id));
-    }
-
-    
+function DreamCardList({cards, addCard, editCard, deleteCard}:CardListProps){
     return(
         <div className={styles.cardList}>
-            <AddDreamCard onClick={addCard}></AddDreamCard>
-
-            { 
-                cards.map(card =>
-                    (
-                    <DreamCard 
-                        key={card.id}
-                        title={card.title} 
-                        description={card.description} 
-                        onEdit={()=>{}} 
-                        onDelete={()=>{deleteCard(card.id);}}
-                    />
-                    )
+        { 
+            cards.map(card =>
+                (
+                <DreamCard 
+                    key={card.id}
+                    title={card.title} 
+                    description={card.description} 
+                    onEdit={()=>{editCard(card)}} 
+                    onDelete={()=>{deleteCard(card.id);}}
+                />
                 )
-                }
+            )
+            }
         </div>
     )
 }
