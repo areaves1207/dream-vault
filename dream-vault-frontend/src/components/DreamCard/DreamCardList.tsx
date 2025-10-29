@@ -23,6 +23,10 @@ function DreamCardList(){
         setCards(prev => [...prev, newCard]);
     }
 
+    function deleteCard(id: number){
+        setCards(prev => prev.filter(card => card.id !== id));
+    }
+
     
     return(
         <div className={styles.cardList}>
@@ -32,10 +36,11 @@ function DreamCardList(){
                 cards.map(card =>
                     (
                     <DreamCard 
+                        key={card.id}
                         title={card.title} 
                         description={card.description} 
                         onEdit={()=>{}} 
-                        onDelete={()=>{}}
+                        onDelete={()=>{deleteCard(card.id);}}
                     />
                     )
                 )

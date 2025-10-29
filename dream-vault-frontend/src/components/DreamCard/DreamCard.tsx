@@ -22,7 +22,7 @@ function DreamCard({title, description, onEdit, onDelete} : CardProps){
             <div className={styles.cardMenu}> 
                 <CardMenu
                     onEdit={()=>onEdit}
-                    onDelete={()=>onDelete}
+                    onDelete={()=>{onDelete();}}
                     onClose={()=>setMenuOpen(false)}
                 />
             </div>
