@@ -20,13 +20,14 @@ export default function DreamInput({card, save, cancel}: DreamInputProps){
     return(
         <div className={styles.dreamInput}>
             <input
+                className={styles.title}
                 type="text"
                 value={title}
                 onChange={(e) => setTitle(e.target.value)}
             />
 
-            <input
-                type="text"
+            <textarea
+                className={styles.description}
                 value={description}
                 onChange={(e) => setDescription(e.target.value)}
             />

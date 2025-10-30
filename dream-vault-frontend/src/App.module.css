@@ -1,3 +1,14 @@
 .cardList{
   margin: 2vh;
 }
+
+.inputForm{
+  margin: auto;
+  text-align: center;
+  width: 70vw;
+  z-index: 100;
+  position: fixed;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+}

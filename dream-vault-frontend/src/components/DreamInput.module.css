@@ -1,3 +1,36 @@
 .dreamInput{
     color: white;
+    border-radius: 3em;
+    border-style: solid;
+    border-color: white;
+    text-align: center;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+
+
+    height: 70vh;
+
 }
+
+.title{
+    text-align: left;
+    border-radius: 3em;
+    height: 30vh;
+    margin-bottom: 10px;
+    font-size: xx-large;
+    font-weight: bolder;
+    padding-left: 1em;
+}
+
+
+.description{
+    text-align: left; 
+    height: 70vh;
+    font-size: large;
+    padding-left: 1em;
+    padding-top: 1em;
+    resize: none;
+}
+

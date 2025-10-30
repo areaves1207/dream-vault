@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import Cards, { type Dream } from './components/DreamCard/DreamCardList.tsx'
+import Cards from './components/DreamCard/DreamCardList.tsx'
 import DreamCard from './components/DreamCard/DreamCard.tsx'
 import Header from './components/Header.tsx'
 import './App.css'
@@ -35,7 +35,15 @@ function App() {
 
       function editCard(editCard: DreamCard){
           console.log("Updating card:", editCard);
-            // go through each cards, look for the same cards, if it is then take all its existing info and update title/desc, else just keep prev card
+          setSelectedCard(editCard);
+      }
+
+      function cancel(){
+        setSelectedCard(null);
+      }
+
+      function save(editCard: DreamCard){
+          // go through each cards, look for the same cards, if it is then take all its existing info and update title/desc, else just keep prev card
           setCards(prevCards =>
             prevCards.map(card =>
               card.id === editCard.id ? {...card, title: editCard.title, description: editCard.description} : card
@@ -44,26 +52,26 @@ function App() {
           setSelectedCard(null);
       }
 
-      function cancel(){
-        setSelectedCard(null);
-      }
-
 
   return (
     <>
       <Header/>
-      <DreamInput 
-        card={selectedCard ?? {id: -1, title:"Error Title", description:"Error Desc."}}
-        save={(card: DreamCard) => {editCard(card);}} 
-        cancel={() => {cancel()} }
-      ></DreamInput>
+      {selectedCard && <div className={styles.inputForm}>
+        <DreamInput 
+          card={selectedCard ?? {id: -1, title:"Error Title", description:"Error Desc."}}
+          save={(card: DreamCard) => {save(card);}} 
+          cancel={() => {cancel()} }
+        ></DreamInput>
+      </div>}
+
+
       <div className={styles.cardList}>
         <AddDreamCard onClick={addCard}></AddDreamCard>
         <Cards 
           cards={cards} 
           addCard={() => addCard()} 
           deleteCard={(id) => deleteCard(id)} 
-          editCard={(card) => {setSelectedCard(card); console.log("Card Selected", card.id)}}>
+          editCard={(card) => {editCard(card);}}>
         </Cards>
       </div>
     </>
