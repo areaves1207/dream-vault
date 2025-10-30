@@ -24,7 +24,7 @@ function DreamCardList({cards, addCard, editCard, deleteCard}:CardListProps){
                     key={card.id}
                     title={card.title} 
                     description={card.description} 
-                    onEdit={()=>{editCard(card)}} 
+                    onEdit={()=>{editCard(card);}} 
                     onDelete={()=>{deleteCard(card.id);}}
                 />
                 )

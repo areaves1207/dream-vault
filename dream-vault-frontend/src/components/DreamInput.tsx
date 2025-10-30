@@ -32,7 +32,7 @@ export default function DreamInput({card, save, cancel}: DreamInputProps){
             />
 
             <div className={styles.buttons}>
-                <button onClick={() => save(card)}>Save</button>
+                <button onClick={() => {save({...card, title:title, description:description});}}>Save</button>
                 <button onClick={() => cancel()}>Cancel</button>
             </div>
         </div>

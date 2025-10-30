@@ -34,31 +34,19 @@ function App() {
       }
 
       function editCard(editCard: DreamCard){
-          let c = cards.find(card => card.id === editCard.id)
-          if(c){
-            c.title = editCard.title;
-            c.description = editCard.description;
-          }
+          console.log("Updating card:", editCard);
+            // go through each cards, look for the same cards, if it is then take all its existing info and update title/desc, else just keep prev card
+          setCards(prevCards =>
+            prevCards.map(card =>
+              card.id === editCard.id ? {...card, title: editCard.title, description: editCard.description} : card
+            )
+          );
           setSelectedCard(null);
       }
 
       function cancel(){
         setSelectedCard(null);
       }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
   return (
@@ -75,7 +63,7 @@ function App() {
           cards={cards} 
           addCard={() => addCard()} 
           deleteCard={(id) => deleteCard(id)} 
-          editCard={(card) => {editCard(card);  console.log(card.id); console.log(card.title);}}>
+          editCard={(card) => {setSelectedCard(card); console.log("Card Selected", card.id)}}>
         </Cards>
       </div>
     </>
