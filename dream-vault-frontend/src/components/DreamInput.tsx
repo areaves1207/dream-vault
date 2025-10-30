@@ -24,12 +24,14 @@ export default function DreamInput({card, save, cancel}: DreamInputProps){
                 type="text"
                 value={title}
                 onChange={(e) => setTitle(e.target.value)}
+                placeholder="Title your dream"
             />
 
             <textarea
                 className={styles.description}
                 value={description}
                 onChange={(e) => setDescription(e.target.value)}
+                placeholder="Describe your dream..."
             />
 
             <div className={styles.buttons}>

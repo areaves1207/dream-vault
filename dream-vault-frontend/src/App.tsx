@@ -22,8 +22,8 @@ function App() {
       function addCard(){
           const newCard: DreamCard={
           id: Date.now(),
-          title:"Dream Title",
-          description: "Dream Description"
+          title:"",
+          description: ""
           };
           setCardLockScroll(newCard);
           setCards(prev => [...prev, newCard]);
