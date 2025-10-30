@@ -10,7 +10,7 @@ export type DreamCardProps = {
 type DreamInputProps = {
     card: DreamCardProps;
     save: (card: DreamCardProps) => void;
-    cancel: () => void;
+    cancel: (card: DreamCardProps) => void;
 };
 
 export default function DreamInput({card, save, cancel}: DreamInputProps){
@@ -35,8 +35,8 @@ export default function DreamInput({card, save, cancel}: DreamInputProps){
             />
 
             <div className={styles.buttons}>
-                <button onClick={() => {save({...card, title:title, description:description});}}>Save</button>
-                <button onClick={() => cancel()}>Cancel</button>
+                <button className={styles.button} onClick={() => {save({...card, title:title, description:description});}}>Save</button>
+                <button className={styles.button} onClick={() => cancel(card)}>Cancel</button>
             </div>
         </div>
     )

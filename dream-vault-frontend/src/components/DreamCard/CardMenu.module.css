@@ -1,11 +1,14 @@
 .ul{
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
     text-align: left;
-    background-color: red;
+    background-color: var(--color-secondary);
+    color:var(--color-text-light);
     margin:0;
     list-style-position: inside;
     padding: 3px;
-    padding-top: 0;
-    padding-bottom: 0;
+    padding-left:10px;
 }
 
 .li{

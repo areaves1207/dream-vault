@@ -4,33 +4,55 @@
     border-style: solid;
     border-color: white;
     text-align: center;
+    background-color: var(--color-background);
 
     display: flex;
     flex-direction: column;
     justify-content: center;
 
+    overflow: hidden;
 
     height: 70vh;
-
 }
 
 .title{
+    border: none;
+    outline: none;
+    border-bottom-color: white;
+    border-bottom-style: solid;
+    border-bottom-width: 3px;
     text-align: left;
-    border-radius: 3em;
-    height: 30vh;
+    height: 20vh;
     margin-bottom: 10px;
     font-size: xx-large;
     font-weight: bolder;
     padding-left: 1em;
+    background-color: var(--color-background);
 }
 
 
 .description{
+    border: none;
+    outline: none;
+    border-bottom-color: white;
+    border-bottom-style: solid;
+    border-bottom-width: 3px;
     text-align: left; 
     height: 70vh;
     font-size: large;
     padding-left: 1em;
     padding-top: 1em;
     resize: none;
+    background-color: var(--color-background);
 }
 
+.buttons{
+    display: flex;
+    margin: auto;
+    gap: 20px;
+    padding: 10px;
+}
+
+.button{
+    padding: 1em;
+}

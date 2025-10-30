@@ -25,8 +25,8 @@ function App() {
           title:"",
           description: ""
           };
-          setCardLockScroll(newCard);
           setCards(prev => [...prev, newCard]);
+          setCardLockScroll(newCard);
       }
   
       function deleteCard(id: number){
@@ -47,7 +47,8 @@ function App() {
           setCardLockScroll(editCard);
       }
 
-      function cancel(){
+      function cancel(card: DreamCard){
+        deleteCard(card.id);
         nullCardUnlockScroll()
       }
 
@@ -69,19 +70,22 @@ function App() {
         <DreamInput 
           card={selectedCard ?? {id: -1, title:"Error Title", description:"Error Desc."}}
           save={(card: DreamCard) => {save(card);}} 
-          cancel={() => {cancel()} }
+          cancel={(card: DreamCard) => {cancel(card)} }
         ></DreamInput>
       </div>}
 
 
-      <div className={styles.cardList}>
+      <div className={styles.column}>
         <AddDreamCard onClick={addCard}></AddDreamCard>
-        <Cards 
-          cards={cards} 
-          addCard={() => addCard()} 
-          deleteCard={(id) => deleteCard(id)} 
-          editCard={(card) => {editCard(card);}}>
-        </Cards>
+
+        <div className={styles.cardList}>
+          <Cards 
+            cards={cards} 
+            addCard={() => addCard()} 
+            deleteCard={(id) => deleteCard(id)} 
+            editCard={(card) => {editCard(card);}}>
+          </Cards>
+        </div>
       </div>
     </>
   )

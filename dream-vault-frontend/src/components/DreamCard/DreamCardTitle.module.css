@@ -1,5 +1,5 @@
 .title{
-    color: #8b4545;
+    color: var(--color-text-light);
     font-size: large;
     font-weight: bold;
 }

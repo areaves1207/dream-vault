@@ -4,8 +4,9 @@
   --color-primary: #1d1d43;
   --color-secondary: #3d3772;
   --color-background: #030a14;
-  --color-border: ce751d;
+  --color-border: #ce751d;
   --color-text: #4765a7;
+  --color-text-light: white;
 
   color-scheme: dark;
   color: var(--color-text);
