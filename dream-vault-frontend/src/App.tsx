@@ -22,10 +22,10 @@ function App() {
       function addCard(){
           const newCard: DreamCard={
           id: Date.now(),
-          title:"testing",
-          description: "testing_desc"
+          title:"Dream Title",
+          description: "Dream Description"
           };
-  
+          setCardLockScroll(newCard);
           setCards(prev => [...prev, newCard]);
       }
   
@@ -33,13 +33,22 @@ function App() {
           setCards(prev => prev.filter(card => card.id !== id));
       }
 
+      function setCardLockScroll(card: DreamCard){
+        document.body.style.overflow = 'hidden';
+        setSelectedCard(card);
+      }
+      function nullCardUnlockScroll(){
+        document.body.style.overflow = 'auto';
+        setSelectedCard(null);        
+      }
+
       function editCard(editCard: DreamCard){
           console.log("Updating card:", editCard);
-          setSelectedCard(editCard);
+          setCardLockScroll(editCard);
       }
 
       function cancel(){
-        setSelectedCard(null);
+        nullCardUnlockScroll()
       }
 
       function save(editCard: DreamCard){
@@ -49,7 +58,7 @@ function App() {
               card.id === editCard.id ? {...card, title: editCard.title, description: editCard.description} : card
             )
           );
-          setSelectedCard(null);
+          nullCardUnlockScroll()
       }
 
 
