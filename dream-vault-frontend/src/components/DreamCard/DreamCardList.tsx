@@ -5,6 +5,7 @@ export type Dream = {
   id: number;
   title: string;
   description: string;
+  date: Date;
 };
 
 type CardListProps = {
@@ -24,6 +25,7 @@ function DreamCardList({cards, addCard, editCard, deleteCard}:CardListProps){
                     key={card.id}
                     title={card.title} 
                     description={card.description} 
+                    date={card.date}
                     onEdit={()=>{editCard(card);}} 
                     onDelete={()=>{deleteCard(card.id);}}
                 />

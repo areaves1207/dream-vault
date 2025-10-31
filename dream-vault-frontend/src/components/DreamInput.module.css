@@ -18,18 +18,59 @@
 .title{
     border: none;
     outline: none;
-    border-bottom-color: white;
-    border-bottom-style: solid;
-    border-bottom-width: 3px;
+    padding-left: 1em;
+    border-right: white solid 3px;
     text-align: left;
-    height: 20vh;
-    margin-bottom: 10px;
+    
     font-size: xx-large;
     font-weight: bolder;
-    padding-left: 1em;
+    width: 80vw;
+
+}
+
+.header{
+    display: flex;
+    flex-direction: row;
+    border-bottom: white solid 3px;
+
+    height: 15vh;
+    max-height: 20vh;
+    /* width: 100vw; */
+    margin-bottom: 10px;
+    padding-left: 0;
     background-color: var(--color-background);
 }
 
+.calendar{
+    
+    position: absolute;
+    z-index: 1000;
+    width: 50%;
+    margin: 25%;
+    border: white solid 2px;
+    padding: 3px;
+}
+
+.calendarSelectArea{
+    width: 20vw;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+}
+
+.calendarIcon{
+    padding: 0;
+    margin: 0;
+}
+
+.calendarText{
+    padding: 0;
+    margin: 0;
+    font-size: medium;
+    font-weight: bold;
+}
 
 .description{
     border: none;
@@ -55,4 +96,8 @@
 
 .button{
     padding: 1em;
+}
+
+.calendarSelectArea:hover{
+    cursor: pointer;
 }

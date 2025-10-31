@@ -7,11 +7,12 @@ import { useState } from "react"
 type CardProps = {
     title: string;
     description: string;
+    date: Date;
     onEdit: ()=> void;
     onDelete: ()=> void;
 };
 
-function DreamCard({title, description, onEdit, onDelete} : CardProps){
+function DreamCard({title, description, date, onEdit, onDelete} : CardProps){
     const [isMenuOpen, setMenuOpen] = useState(false);
     
     return(

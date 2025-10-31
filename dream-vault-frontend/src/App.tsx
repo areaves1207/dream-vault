@@ -13,6 +13,7 @@ type DreamCard = {
   id: number;
   title: string;
   description: string;
+  date: Date;
 };
 
 
@@ -24,7 +25,8 @@ function App() {
           const newCard: DreamCard={
           id: Date.now(),
           title:"",
-          description: ""
+          description: "",
+          date: new Date()
           };
           setCards(prev => [...prev, newCard]);
           setCardLockScroll(newCard);
@@ -49,15 +51,14 @@ function App() {
       }
 
       function cancel(card: DreamCard){
-        deleteCard(card.id);
         nullCardUnlockScroll()
       }
 
-      function save(editCard: DreamCard){
+      function save(editCard: DreamCard){ //edit or add
           // go through each cards, look for the same cards, if it is then take all its existing info and update title/desc, else just keep prev card
           setCards(prevCards =>
             prevCards.map(card =>
-              card.id === editCard.id ? {...card, title: editCard.title, description: editCard.description} : card
+              card.id === editCard.id ? {...card, title: editCard.title, description: editCard.description, date: editCard.date} : card
             )
           );
           nullCardUnlockScroll()
@@ -69,7 +70,7 @@ function App() {
       <Header/>
       {selectedCard && <div className={styles.inputForm}>
         <DreamInput 
-          card={selectedCard ?? {id: -1, title:"Error Title", description:"Error Desc."}}
+          card={selectedCard ?? {id: -1, title:"Error Title", description:"Error Desc.", date:"1995-01-01"}}
           save={(card: DreamCard) => {save(card);}} 
           cancel={(card: DreamCard) => {cancel(card)} }
         ></DreamInput>
