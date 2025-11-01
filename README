@@ -1,0 +1,8 @@
+DREAM VAULT
+This is a full stack web app (and potentially mobile app in the future) where you can log your dreams :)
+
+When I have a dream I want to remember, I have always just texted it to my friends. These dreams were always getting lost in my messages though and I never saw most of them again. 
+
+In my free time while I search for a software engineering job, I figured I might as well make an app that I could benefit from, while learning important lessons on development.
+
+This app currently uses React, Typescript, HTML, and CSS in the front end.
