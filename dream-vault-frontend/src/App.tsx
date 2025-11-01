@@ -54,11 +54,17 @@ function App() {
 
       function save(editCard: DreamCard){ //edit or add
           // go through each cards, look for the same cards, if it is then take all its existing info and update title/desc, else just keep prev card
-          setCards(prevCards =>
-            prevCards.map(card =>
-              card.id === editCard.id ? {...card, title: editCard.title, description: editCard.description, date: editCard.date} : card
-            )
-          );
+          //if it exists in the list, just update it, otherwise add it
+          setCards(prevCards => {
+            if(prevCards.some(card => card.id === editCard.id)){
+              console.log("found elemnt");
+              return prevCards.map(card =>
+                card.id === editCard.id ? {...card, title: editCard.title, description: editCard.description, date: editCard.date} : card
+              );
+            }else{
+              return [...prevCards, editCard];
+            }
+          });
           nullCardUnlockScroll();
           // setCards(prev => [...prev, editCard]);
       }
