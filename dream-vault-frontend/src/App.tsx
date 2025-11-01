@@ -27,7 +27,7 @@ function App() {
           description: "",
           date: new Date()
           };
-          setCardLockScroll(newCard);
+          setCardLockScroll(newCard); //todo: does this cause a memory leak? say we added a card but cancelled it, what happens to the memory of that card? 
       }
   
       function deleteCard(id: number){
@@ -60,8 +60,7 @@ function App() {
             )
           );
           nullCardUnlockScroll();
-          setCards(prev => [...prev, editCard]);
-
+          // setCards(prev => [...prev, editCard]);
       }
 
 
