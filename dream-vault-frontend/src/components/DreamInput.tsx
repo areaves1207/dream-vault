@@ -12,7 +12,7 @@ export type DreamCardProps = {
 type DreamInputProps = {
     card: DreamCardProps;
     save: (card: DreamCardProps) => void;
-    cancel: (card: DreamCardProps) => void;
+    cancel: () => void;
 };
 
 type DateValue = Date | null;
@@ -36,6 +36,7 @@ export default function DreamInput({card, save, cancel}: DreamInputProps){
                     value={title}
                     onChange={(e) => setTitle(e.target.value)}
                     placeholder="Title your dream"
+                    maxLength={35}
                 />
                 <div className={styles.calendarSelectArea} onClick={() => setCalendarOpen(true)}>
                     <p className={styles.calendarIcon}>&#128197;</p>
@@ -52,7 +53,7 @@ export default function DreamInput({card, save, cancel}: DreamInputProps){
 
             <div className={styles.buttons}>
                 <button className={styles.button} onClick={() => {save({...card, title:title, description:description, date:date ?? new Date(1999, 1, 1)});}}>Save</button>
-                <button className={styles.button} onClick={() => cancel(card)}>Cancel</button>
+                <button className={styles.button} onClick={() => cancel()}>Cancel</button>
             </div>
         </div>
     )

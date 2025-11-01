@@ -1,5 +1,4 @@
 import { useState } from 'react'
-import Calendar from 'react-calendar'
 import Cards from './components/DreamCard/DreamCardList.tsx'
 import DreamCard from './components/DreamCard/DreamCard.tsx'
 import Header from './components/Header.tsx'
@@ -28,7 +27,6 @@ function App() {
           description: "",
           date: new Date()
           };
-          setCards(prev => [...prev, newCard]);
           setCardLockScroll(newCard);
       }
   
@@ -50,7 +48,7 @@ function App() {
           setCardLockScroll(editCard);
       }
 
-      function cancel(card: DreamCard){
+      function cancel(){
         nullCardUnlockScroll()
       }
 
@@ -61,7 +59,9 @@ function App() {
               card.id === editCard.id ? {...card, title: editCard.title, description: editCard.description, date: editCard.date} : card
             )
           );
-          nullCardUnlockScroll()
+          nullCardUnlockScroll();
+          setCards(prev => [...prev, editCard]);
+
       }
 
 
@@ -72,7 +72,7 @@ function App() {
         <DreamInput 
           card={selectedCard ?? {id: -1, title:"Error Title", description:"Error Desc.", date:"1995-01-01"}}
           save={(card: DreamCard) => {save(card);}} 
-          cancel={(card: DreamCard) => {cancel(card)} }
+          cancel={() => {cancel()} }
         ></DreamInput>
       </div>}
 
