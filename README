@@ -6,3 +6,5 @@ When I have a dream I want to remember, I have always just texted it to my frien
 In my free time while I search for a software engineering job, I figured I might as well make an app that I could benefit from, while learning important lessons on development.
 
 This app currently uses React, Typescript, and CSS in the front end.
+
+In this project, I've tried to implement best practices so that I could be able to scale this in the future if I so wanted. I've been breaking functions down into their lowest parts so that they can easily be reused. I have been working on 
