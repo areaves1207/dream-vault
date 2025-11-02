@@ -1,4 +1,5 @@
 const http = require('http');
+const cors = require('cors');
 
 const server = http.createServer((req, res) => {
     res.writeHead(200, {'Content-type': 'text/html'});
@@ -7,20 +8,8 @@ const server = http.createServer((req, res) => {
     res.end();
 })
 
-// const port = 3000;
 
-// server.listen(port, () => {
-//     console.log('Node.js HTTP port running on port ${port}')
-// })
-
-const express = require('express');
-const app = express();
-
-app.get('/', (req, res) => {
-    res.send('<h1>Hello, express js server!</h1>');
-});
-
-const port = process.env.PORT || 3000;
 server.listen(port, () => {
-    console.log('Server is running on port ${port}')
+    console.log('Node.js HTTP port running on port ${port}')
 })
+
