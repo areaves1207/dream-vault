@@ -1,19 +1,10 @@
 const express = require('express');
 const app = express();
-const cors = require('cors');
-
 app.use(cors());
 
+app.use(express.json());
 
-const usersRoute = require('./routes/users.js');
-app.use('/users', usersRoute);
+const userRoutes = require('./routes/users');
+app.use('/user', userRoutes);
 
-
-app.get('/', (req, res) => {
-    res.send('<h1>Hello, express.js server..!</h1>');
-});
-
-const port = process.env.PORT || 3000;
-app.listen(port, () => {
-    console.log('Server is running on port ${port}')
-})
+module.exports = app;

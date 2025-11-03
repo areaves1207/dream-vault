@@ -1,15 +1,6 @@
-const http = require('http');
-const cors = require('cors');
+const app = require('./app');
+const PORT = process.env.PORT || 3000;
 
-const server = http.createServer((req, res) => {
-    res.writeHead(200, {'Content-type': 'text/html'});
-
-    res.write('<h1>Hello, Node js http server!</h1>');
-    res.end();
-})
-
-
-server.listen(port, () => {
-    console.log('Node.js HTTP port running on port ${port}')
-})
-
+app.listen(PORT, () => {
+    console.log(`Server running on http://localhost:${PORT}`);
+});

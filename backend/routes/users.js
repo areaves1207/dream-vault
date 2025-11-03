@@ -1,10 +1,12 @@
 // routes/users.js
 const express = require('express');
 const router = express.Router();
+const db = require('../config/db.js');
 
 // Define a route
-router.get('/', (req, res) => {
-    res.send('this is user route');// this gets executed when user visit http://localhost:3000/user
+router.get('/', async (req, res) => {
+    const [rows] = await db.query('SELECT * FROM users');
+    res.json(rows);
 });
 
 // export the router module so that server.js file can use it
