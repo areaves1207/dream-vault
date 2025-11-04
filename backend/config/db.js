@@ -1,5 +1,5 @@
 require('dotenv').config();
-const mysql = require('mysql2');
+const mysql = require('mysql2/promise');
 
 const pool = mysql.createPool({
     host: 'localhost',
@@ -8,17 +8,4 @@ const pool = mysql.createPool({
     database: 'dreamvault',
 });
 
-
-
-
-// db.connect((err) =>{
-//     if(err){
-//         console.err("Error connecting to database: " + err.stack);
-//         return;
-//     }
-//     console.log("Connected to MySQL successfully");
-// });
-
 module.exports = pool;
-
-
