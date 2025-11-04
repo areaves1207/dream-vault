@@ -8,3 +8,14 @@ exports.getAllDreams = async (req, res) => {
         res.status(500).json({ error: err.message });
     }
 };
+
+exports.getDreamFromID = async (req, res) => {
+    try{
+        const dream = await dreamsModel.getDreamFromID(req.params.id);
+        res.json(dream);
+        // console.log(req.params.id);
+
+    }catch(err){
+        res.status(500).json({ error: err.message });
+    }
+}
