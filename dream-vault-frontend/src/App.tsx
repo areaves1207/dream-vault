@@ -52,21 +52,38 @@ function App() {
         nullCardUnlockScroll()
       }
 
-      function save(editCard: DreamCard){ //edit or add
-          // go through each cards, look for the same cards, if it is then take all its existing info and update title/desc, else just keep prev card
-          //if it exists in the list, just update it, otherwise add it
-          setCards(prevCards => {
-            if(prevCards.some(card => card.id === editCard.id)){
-              console.log("found elemnt");
-              return prevCards.map(card =>
-                card.id === editCard.id ? {...card, title: editCard.title, description: editCard.description, date: editCard.date} : card
-              );
-            }else{
-              return [...prevCards, editCard];
-            }
+      async function save(editCard: DreamCard){ //edit or add
+        // go through each cards, look for the same cards, if it is then take all its existing info and update title/desc, else just keep prev card
+        //if it exists in the list, just update it, otherwise add it
+        setCards(prevCards => {
+          if(prevCards.some(card => card.id === editCard.id)){ //if alr exists
+            return prevCards.map(card =>
+              card.id === editCard.id ? {...card, title: editCard.title, description: editCard.description, date: editCard.date} : card
+            );
+          }else{
+            return [...prevCards, editCard];
+          }
+        });
+        nullCardUnlockScroll();
+
+        //Send results to db
+        try {
+          const response = await fetch("http://localhost:3000/dreams/add_dream", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(editCard),
           });
-          nullCardUnlockScroll();
-          // setCards(prev => [...prev, editCard]);
+
+          
+          if (!response.ok) {
+            throw new Error("Failed to save dream card");
+          }
+
+          const data = await response.json();
+          console.log("Saved to db:", data);
+        }catch(err){
+          console.error("Error sending card to db:", err);
+        }
       }
 
 
