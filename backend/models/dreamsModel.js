@@ -43,3 +43,12 @@ exports.editDream = async({id, title, description, date}) => {
         date
     };
 }
+
+exports.deleteDream = async({id}) => {
+    const[result] = await db.query(
+        'DELETE FROM dreams WHERE id=?', 
+        [id]
+    );
+
+    return {id};
+}

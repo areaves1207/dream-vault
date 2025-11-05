@@ -45,8 +45,24 @@ function App() {
           setCardLockScroll(newCard); //todo: does this cause a memory leak? say we added a card but cancelled it, what happens to the memory of that card? 
       }
   
-      function deleteCard(id: number){
+      async function deleteCard(id: number){
           setCards(prev => prev.filter(card => card.id !== id));
+          
+          try {
+            const response = await fetch("http://localhost:3000/dreams/delete_dream", {
+              method: "DELETE",
+              headers: { "Content-Type": "application/json" },
+              body: JSON.stringify({id}),
+            });
+
+            
+            if (!response.ok) {
+              throw new Error("Failed to save dream card");
+            }
+
+          }catch(err){
+            console.error("Error sending card to db:", err);
+          }
       }
 
       function setCardLockScroll(card: Dream){
