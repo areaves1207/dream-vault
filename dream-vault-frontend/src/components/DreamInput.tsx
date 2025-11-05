@@ -1,17 +1,12 @@
 import Calendar from "react-calendar";
 import styles from "./DreamInput.module.css"
 import { useState } from 'react';
+import type { Dream } from '../types'
 
-export type DreamCardProps = {
-    id: number,
-    title: string,
-    description: string,
-    date: Date
-}
 
 type DreamInputProps = {
-    card: DreamCardProps;
-    save: (card: DreamCardProps) => void;
+    card: Dream;
+    save: (card: Dream) => void;
     cancel: () => void;
 };
 
@@ -20,7 +15,7 @@ type DateValue = Date | null;
 export default function DreamInput({card, save, cancel}: DreamInputProps){
     const [title, setTitle] = useState(card.title);
     const [description, setDescription] = useState(card.description);
-    const [date, setDate] = useState<DateValue>(card.date);
+    const [date, setDate] = useState<DateValue>(new Date(card.date));
     const [calendarOpen, setCalendarOpen] = useState(false);
 
 
@@ -52,7 +47,7 @@ export default function DreamInput({card, save, cancel}: DreamInputProps){
             />
 
             <div className={styles.buttons}>
-                <button className={styles.button} onClick={() => {save({...card, title:title, description:description, date:date ?? new Date(1999, 1, 1)});}}>Save</button>
+                <button className={styles.button} onClick={() => {save({...card, title:title, description:description, date: date?.toLocaleDateString() ?? "1999-01-01"});}}>Save</button>
                 <button className={styles.button} onClick={() => cancel()}>Cancel</button>
             </div>
         </div>
