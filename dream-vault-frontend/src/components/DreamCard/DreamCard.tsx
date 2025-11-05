@@ -7,7 +7,7 @@ import { useState } from "react"
 type CardProps = {
     title: string;
     description: string;
-    date: Date;
+    date: string;
     onEdit: ()=> void;
     onDelete: ()=> void;
 };
