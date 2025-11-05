@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import Cards from './components/DreamCard/DreamCardList.tsx'
 import DreamCard from './components/DreamCard/DreamCard.tsx'
 import Header from './components/Header.tsx'
@@ -16,9 +16,29 @@ type DreamCard = {
 };
 
 
+
+
+
 function App() {
+  const url = "http://localhost:3000/dreams/";
+
   const [cards, setCards] = useState<DreamCard[]>([]);
   const [selectedCard, setSelectedCard] = useState<DreamCard | null>(null);
+  useEffect(() => {
+    async function fetchDreams() {
+      try{
+        const response = await fetch(url);
+        if (!response.ok) throw new Error("Failed to fetch cards");
+
+        const data: DreamCard[] = await response.json();
+        setCards(data);
+      }catch(err){
+        console.error(err);
+      }
+    }
+
+    fetchDreams();
+  }, []);
   
       function addCard(){
           const newCard: DreamCard={
