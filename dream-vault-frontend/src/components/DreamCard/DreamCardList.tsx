@@ -1,21 +1,14 @@
 import styles from "./DreamCardList.module.css"
 import DreamCard from "./DreamCard.tsx"
-
-export type Dream = {
-  id: number;
-  title: string;
-  description: string;
-  date: Date;
-};
+import type { Dream } from '../../types.ts';
 
 type CardListProps = {
     cards: Dream[];
-    addCard: () => void;
     editCard: (card: Dream) => void;
     deleteCard: (id: number)=> void;
 };
 
-function DreamCardList({cards, addCard, editCard, deleteCard}:CardListProps){
+function DreamCardList({cards, editCard, deleteCard}:CardListProps){
     return(
         <div className={styles.cardList}>
         { 
