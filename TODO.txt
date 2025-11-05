@@ -1,0 +1,4 @@
+LIST OF THINGS I'VE THOUGHT UP BUT YET TO IMPLEMENT:
+Dates are saved 1 day in the past. maybe make my own date type that easily converts?
+
+Need a single source of truth for all values.
