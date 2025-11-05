@@ -36,7 +36,7 @@ function App() {
   
       function addCard(){
           const newCard: Dream={
-            id: Date.now(),
+            id: cards.length + 1,
             title:"",
             description: "",
             date: new Date().toISOString().slice(0, 10)
@@ -67,6 +67,7 @@ function App() {
       }
 
       async function save(editCard: Dream){ //edit or add
+        let add = false;
         // go through each cards, look for the same cards, if it is then take all its existing info and update title/desc, else just keep prev card
         //if it exists in the list, just update it, otherwise add it
         setCards(prevCards => {
@@ -75,28 +76,45 @@ function App() {
               card.id === editCard.id ? {...card, title: editCard.title, description: editCard.description, date: editCard.date} : card
             );
           }else{
+            add = true;
             return [...prevCards, editCard];
           }
         });
         nullCardUnlockScroll();
 
-        //Send results to db
-        try {
-          const response = await fetch("http://localhost:3000/dreams/add_dream", {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify(editCard),
-          });
+        if(add){
+          //Send results to db
+          try {
+            const response = await fetch("http://localhost:3000/dreams/add_dream", {
+              method: "POST",
+              headers: { "Content-Type": "application/json" },
+              body: JSON.stringify(editCard),
+            });
 
-          
-          if (!response.ok) {
-            throw new Error("Failed to save dream card");
+            
+            if (!response.ok) {
+              throw new Error("Failed to save dream card");
+            }
+
+            const data = await response.json();
+          }catch(err){
+            console.error("Error sending card to db:", err);
           }
+        }else{
+          try{
+            const response = await fetch("http://localhost:3000/dreams/edit_dream", {
+              method: "PUT",
+              headers: { "Content-Type": "application/json" },
+              body: JSON.stringify(editCard),
+            });
 
-          const data = await response.json();
-          console.log("Sending to database:", data);
-        }catch(err){
-          console.error("Error sending card to db:", err);
+            if (!response.ok) {
+              throw new Error("Failed to save dream card");
+            }
+            const data = await response.json();
+          }catch(err){
+            console.error("Error sending card to db:", err);
+          }
         }
       }
 

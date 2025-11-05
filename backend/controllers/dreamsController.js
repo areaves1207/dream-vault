@@ -27,3 +27,13 @@ exports.addDream = async (req, res) =>{
         res.status(500).json({ error: err.message });
     }
 }
+
+exports.editDream = async (req, res) => {
+    try{
+        const newDream = await dreamsModel.editDream(req.body);
+        res.status(201).json(newDream);
+    }catch(err){
+        console.error(err);
+        res.status(500).json({ error: err.message });
+    }
+}

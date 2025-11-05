@@ -26,3 +26,20 @@ exports.addDream = async({title, description, date}) => {
         date
     };
 }
+
+exports.editDream = async({id, title, description, date}) => {
+    const d = new Date(date);
+    const dateString = d.toISOString().split('T')[0];
+
+    const[result] = await db.query(
+        'UPDATE dreams SET title=?, description=?, date=? WHERE id=?', 
+        [title, description, dateString, id]
+    );
+
+    return {
+        id: result.insertId, 
+        title,
+        description,
+        date
+    };
+}
