@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react'
+import type { Dream } from './types.ts'
 import Cards from './components/DreamCard/DreamCardList.tsx'
-import DreamCard from './components/DreamCard/DreamCard.tsx'
 import Header from './components/Header.tsx'
 import './App.css'
 import styles from './App.module.css'
@@ -8,12 +8,6 @@ import DreamInput from './components/DreamInput.tsx'
 import AddDreamCard from "./components/NewDreamCard.tsx"
 
 
-type DreamCard = {
-  id: number;
-  title: string;
-  description: string;
-  date: Date;
-};
 
 
 
@@ -22,15 +16,15 @@ type DreamCard = {
 function App() {
   const url = "http://localhost:3000/dreams/";
 
-  const [cards, setCards] = useState<DreamCard[]>([]);
-  const [selectedCard, setSelectedCard] = useState<DreamCard | null>(null);
+  const [cards, setCards] = useState<Dream[]>([]);
+  const [selectedCard, setSelectedCard] = useState<Dream | null>(null);
   useEffect(() => {
     async function fetchDreams() {
       try{
         const response = await fetch(url);
         if (!response.ok) throw new Error("Failed to fetch cards");
 
-        const data: DreamCard[] = await response.json();
+        const data: Dream[] = await response.json();
         setCards(data);
       }catch(err){
         console.error(err);
@@ -41,11 +35,11 @@ function App() {
   }, []);
   
       function addCard(){
-          const newCard: DreamCard={
-          id: Date.now(),
-          title:"",
-          description: "",
-          date: new Date()
+          const newCard: Dream={
+            id: Date.now(),
+            title:"",
+            description: "",
+            date: new Date().toISOString().slice(0, 10)
           };
           setCardLockScroll(newCard); //todo: does this cause a memory leak? say we added a card but cancelled it, what happens to the memory of that card? 
       }
@@ -54,7 +48,7 @@ function App() {
           setCards(prev => prev.filter(card => card.id !== id));
       }
 
-      function setCardLockScroll(card: DreamCard){
+      function setCardLockScroll(card: Dream){
         document.body.style.overflow = 'hidden';
         setSelectedCard(card);
       }
@@ -63,7 +57,7 @@ function App() {
         setSelectedCard(null);        
       }
 
-      function editCard(editCard: DreamCard){
+      function editCard(editCard: Dream){
           console.log("Updating card:", editCard);
           setCardLockScroll(editCard);
       }
@@ -72,7 +66,7 @@ function App() {
         nullCardUnlockScroll()
       }
 
-      async function save(editCard: DreamCard){ //edit or add
+      async function save(editCard: Dream){ //edit or add
         // go through each cards, look for the same cards, if it is then take all its existing info and update title/desc, else just keep prev card
         //if it exists in the list, just update it, otherwise add it
         setCards(prevCards => {
@@ -100,7 +94,7 @@ function App() {
           }
 
           const data = await response.json();
-          console.log("Saved to db:", data);
+          console.log("Sending to database:", data);
         }catch(err){
           console.error("Error sending card to db:", err);
         }
@@ -112,8 +106,8 @@ function App() {
       <Header/>
       {selectedCard && <div className={styles.inputForm}>
         <DreamInput 
-          card={selectedCard ?? {id: -1, title:"Error Title", description:"Error Desc.", date:"1995-01-01"}}
-          save={(card: DreamCard) => {save(card);}} 
+          card={selectedCard ?? {id: -1, title:"Error Title", description:"Error Desc.", date:"1999-01-01"}}
+          save={(card: Dream) => {save(card);}} 
           cancel={() => {cancel()} }
         ></DreamInput>
       </div>}
@@ -125,7 +119,6 @@ function App() {
         <div className={styles.cardList}>
           <Cards 
             cards={cards} 
-            addCard={() => addCard()} 
             deleteCard={(id) => deleteCard(id)} 
             editCard={(card) => {editCard(card);}}>
           </Cards>

@@ -47,7 +47,7 @@ export default function DreamInput({card, save, cancel}: DreamInputProps){
             />
 
             <div className={styles.buttons}>
-                <button className={styles.button} onClick={() => {save({...card, title:title, description:description, date: date?.toLocaleDateString() ?? "1999-01-01"});}}>Save</button>
+                <button className={styles.button} onClick={() => {save({...card, title:title, description:description, date: date?.toISOString().slice(0, 10) ?? "01/01/1999"});}}>Save</button>
                 <button className={styles.button} onClick={() => cancel()}>Cancel</button>
             </div>
         </div>
