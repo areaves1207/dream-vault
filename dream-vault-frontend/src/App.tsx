@@ -36,11 +36,12 @@ function App() {
   
       function addCard(){
           const newCard: Dream={
-            id: cards.length + 1,
+            id: -1,
             title:"",
             description: "",
             date: new Date().toISOString().slice(0, 10)
           };
+          console.log("Added card:", newCard);
           setCardLockScroll(newCard); //todo: does this cause a memory leak? say we added a card but cancelled it, what happens to the memory of that card? 
       }
   
@@ -97,6 +98,20 @@ function App() {
             }
 
             const data = await response.json();
+            let db_id = data.id;
+
+            setCards(prevCards => {
+              if(prevCards.some(card => card.id === editCard.id)){ //if alr exists
+                return prevCards.map(card =>
+                  card.id === editCard.id ? {...card, id: db_id} : card
+                );
+              }else{
+                add = true;
+                console.error("ERROR UPDATING ID FROM DATABASE");
+                return [...prevCards, editCard];
+              }
+            });
+            
           }catch(err){
             console.error("Error sending card to db:", err);
           }
@@ -111,10 +126,10 @@ function App() {
             if (!response.ok) {
               throw new Error("Failed to save dream card");
             }
-            const data = await response.json();
+            // const data = await response.json();
           }catch(err){
             console.error("Error sending card to db:", err);
-          }
+          } 
         }
       }
 

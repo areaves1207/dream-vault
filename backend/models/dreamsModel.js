@@ -37,7 +37,7 @@ exports.editDream = async({id, title, description, date}) => {
     );
 
     return {
-        id: result.insertId, 
+        id, 
         title,
         description,
         date

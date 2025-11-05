@@ -22,6 +22,7 @@ exports.addDream = async (req, res) =>{
     try{
         const newDream = await dreamsModel.addDream(req.body);
         res.status(201).json(newDream);
+        console.log("Dream added:", newDream);
     }catch(err){
         console.error(err);
         res.status(500).json({ error: err.message });
@@ -32,6 +33,7 @@ exports.editDream = async (req, res) => {
     try{
         const newDream = await dreamsModel.editDream(req.body);
         res.status(201).json(newDream);
+        console.log("Dream edited:", newDream);
     }catch(err){
         console.error(err);
         res.status(500).json({ error: err.message });
