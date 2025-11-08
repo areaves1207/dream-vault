@@ -11,4 +11,7 @@ app.use(express.json());
 const dreamsRoutes = require('./routes/dreams');
 app.use('/dreams', dreamsRoutes);
 
+const authRoutes = require("./routes/authRoutes");
+app.use('/routes', authRoutes);
+
 module.exports = app;

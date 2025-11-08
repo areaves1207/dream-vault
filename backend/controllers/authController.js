@@ -27,7 +27,8 @@ exports.register = async (req, res) => {
         
         //insert into DB!!!!!!!!
         const register = await authModel.register(userData);
-        return res.status(201).json(register);
+
+        return res.status(201).json(register).end();
     }catch(err){
         console.log("AuthController Error: ", err);
         res.status(500).json({ error: err.message });
