@@ -40,23 +40,14 @@ exports.login = async (req, res) => {
     try{
         //attempt login
         email = req.body.email;
-
-        //hash the inputted password
-        const salt = bcrypt.genSaltSync(10);
-        const hashed_pass_input = bcrypt.hashSync(req.body.password, salt);
-
-        const userData = {
-            ...req.body,
-            password: hashed_pass 
-        }
-
+        
         //grab user's info from given email. make sure it returns something
-        const user = await authModel.getUserByEmail(userData);
+        const user = await authModel.getUserByEmail(req.body);
         if(!user) return res.status(400).json({error: "Incorrect username or password.1"});
 
         //compare the two. if same, match is success, submitted info correct
-        const isMatch = await bcrypt.compare(user.password, hashed_pass_input);
-        if(!isMatch) res.status(400).json({error: "Incorrect username or password.2"});
+        const isMatch = await bcrypt.compare(req.body.password, user.password);
+        if(!isMatch) return res.status(400).json({error: "Incorrect username or password.2"});
 
         //issue token!!!!!! success
         const token = jwt.sign(
