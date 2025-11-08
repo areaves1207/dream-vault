@@ -16,8 +16,8 @@ INSERT INTO dreams(title, description, date) VALUES ("TESTING 3", "DESCRIPTION 3
 CREATE TABLE IF NOT EXISTS users(
     id INT PRIMARY KEY AUTO_INCREMENT NOT NULL,
     email VARCHAR(255),
-    password TEXT,
+    hashed_password TEXT,
     created_at TIMESTAMP
 );
 
-INSERT INTO users(email, password) VALUES ("aidanemailtest@email.com", "unhashed_password_test");
+INSERT INTO users(email, hashed_password) VALUES ("aidanemailtest@email.com", "unhashed_password_test");
