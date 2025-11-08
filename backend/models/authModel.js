@@ -14,7 +14,7 @@ exports.register = async ({email, password}) => {
 
 exports.getUserByEmail = async ({email}) => {
     const [rows] = await db.query(
-        'SELECT password FROM users WHERE email=?',
+        'SELECT * FROM users WHERE email=?',
         [email]
     );
     return rows[0];
