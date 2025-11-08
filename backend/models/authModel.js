@@ -11,3 +11,11 @@ exports.register = async ({email, password}) => {
         email
     }
 }
+
+exports.getUserByEmail = async ({email}) => {
+    const [rows] = await db.query(
+        'SELECT password FROM users WHERE email=?',
+        [email]
+    );
+    return rows[0];
+}
