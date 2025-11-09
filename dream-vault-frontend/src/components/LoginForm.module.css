@@ -1,0 +1,9 @@
+.loginForm{
+    background-color: var(--color-background);
+    margin: 0; padding: 0;
+}
+
+.form{
+    color: white;
+    text-align: left;
+}
