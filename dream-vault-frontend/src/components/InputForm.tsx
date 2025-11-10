@@ -1,11 +1,13 @@
 import style from "./LoginForm.module.css"
 
 
-export default function InputForm(props: {titleText: string}){
+export default function InputForm(props: {titleText: string, targeturl: string}){
+    const { titleText, targeturl } = props;
+
     return(
     <div className={style.loginForm}>
-        <form className={style.form} action="http://localhost:3000/routes/login" method="post">
-            <p className={style.title}>{props.titleText}</p>
+        <form className={style.form} action={targeturl} method="post">
+            <p className={style.title}>{titleText}</p>
             <label className={style.label}>Email:</label>
             <input className={style.input} type="email" placeholder="email" id="email" name="email" required/>
             <br></br>

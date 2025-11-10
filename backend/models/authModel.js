@@ -2,7 +2,7 @@ const db = require('../config/db');
 
 exports.register = async ({email, password}) => {
     const result = await db.query(
-        'INSERT INTO users(email, password) VALUES (?, ?)',
+        'INSERT INTO users(email, hashed_password) VALUES (?, ?)',
         [email, password]
     );
 

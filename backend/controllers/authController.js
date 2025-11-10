@@ -46,7 +46,7 @@ exports.login = async (req, res) => {
         if(!user) return res.status(400).json({error: "Incorrect username or password.1"});
 
         //compare the two. if same, match is success, submitted info correct
-        const isMatch = await bcrypt.compare(req.body.password, user.password);
+        const isMatch = await bcrypt.compare(req.body.password, user.hashed_password);
         if(!isMatch) return res.status(400).json({error: "Incorrect username or password.2"});
 
         //issue token!!!!!! success
