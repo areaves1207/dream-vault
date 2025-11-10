@@ -54,7 +54,7 @@ exports.login = async (req, res) => {
             { id: user.id, email: user.email }, //payload
             process.env.JWT_SECRET,             //sercret key
             { expiresIn: "1h" }                 //options
-        );
+        );       
 
         return res.status(200).json({
             message: "Login successful!",
