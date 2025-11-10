@@ -56,9 +56,14 @@ exports.login = async (req, res) => {
             { expiresIn: "1h" }                 //options
         );       
 
+        res.cookie('jwt', token, {
+            httpOnly: true,
+            sameSite: 'Strict',
+            maxAge: 3600000
+        });
+
         return res.status(200).json({
             message: "Login successful!",
-            token: token,
             user: {
                 id: user.id,
                 email: user.email
