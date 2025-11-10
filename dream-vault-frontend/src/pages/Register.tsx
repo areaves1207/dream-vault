@@ -1,5 +1,5 @@
-import style from "./Login.module.css"
-import InputForm from "../components/LoginForm"
+import style from "./Register.module.css"
+import InputForm from "../components/InputForm"
 
 export default function Login(){
     return(
