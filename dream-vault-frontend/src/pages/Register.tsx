@@ -4,7 +4,7 @@ import InputForm from "../components/LoginForm"
 export default function Login(){
     return(
         <div className={style.login}>
-            <InputForm titleText="Login to your dreamvault account"></InputForm>
+            <InputForm titleText="Register for a dreamvault account"></InputForm>
         </div>
     )   
 }
