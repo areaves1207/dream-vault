@@ -29,13 +29,7 @@ exports.register = async (req, res) => {
         //insert into DB!!!!!!!!
         const user = await authModel.register(userData);
 
-        const token = issueToken(user);
-        res.cookie('jwt', token, {
-            httpOnly: true,
-            sameSite: 'Strict',
-            maxAge: 3600000
-        });
-
+        issueToken(user, res);
 
         return res.status(201).json(user).end();
     }catch(err){
@@ -59,13 +53,7 @@ exports.login = async (req, res) => {
 
         //issue token!!!!!! success
       
-        const token = issueToken(user);
-
-        res.cookie('jwt', token, {
-            httpOnly: true,
-            sameSite: 'Strict',
-            maxAge: 3600000
-        });
+        issueToken(user, res);
 
         return res.status(200).json({
             message: "Login successful!",
@@ -81,11 +69,17 @@ exports.login = async (req, res) => {
     }
 }
 
-function issueToken(user){
+function issueToken(user, res){
     const token = jwt.sign(
         { id: user.id, email: user.email }, //payload
         process.env.JWT_SECRET,             //sercret key
         { expiresIn: "1h" }                 //options
     ); 
+
+    res.cookie('jwt', token, {
+        httpOnly: true,
+        sameSite: 'Strict',
+        maxAge: 3600000
+    });
     return token;
 }
