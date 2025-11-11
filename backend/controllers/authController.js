@@ -69,6 +69,29 @@ exports.login = async (req, res) => {
     }
 }
 
+exports.verify = async (req, res) => {
+    try{
+        const token = req.cookies.jwt;
+
+        if (!token) {
+            return res.status(401).json({ error: 'Token not found' });
+        }
+
+        const decoded = jwt.verify(token, process.env.JWT_SECRET);
+        req.user = decoded;
+
+        return res.status(200).json({
+            success: true,
+            message: 'Token validated',
+            user: decoded,
+        });
+
+    }catch(err){
+        console.error("JWT verification error: ", err)
+        res.status(500).json({ error: err.message });
+    }
+}
+
 function issueToken(user, res){
     const token = jwt.sign(
         { id: user.id, email: user.email }, //payload
