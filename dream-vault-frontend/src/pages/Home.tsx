@@ -50,6 +50,7 @@ export default function Home(){
             method: "DELETE",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({id}),
+            credentials: "include",
           });
 
           
@@ -108,6 +109,7 @@ export default function Home(){
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify(editCard),
+            credentials: "include",
           });
 
           
@@ -139,6 +141,7 @@ export default function Home(){
             method: "PUT",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify(editCard),
+            credentials: "include",
           });
 
           if (!response.ok) {
