@@ -27,9 +27,17 @@ exports.register = async (req, res) => {
         }
         
         //insert into DB!!!!!!!!
-        const register = await authModel.register(userData);
+        const user = await authModel.register(userData);
 
-        return res.status(201).json(register).end();
+        const token = issueToken(user);
+        res.cookie('jwt', token, {
+            httpOnly: true,
+            sameSite: 'Strict',
+            maxAge: 3600000
+        });
+
+
+        return res.status(201).json(user).end();
     }catch(err){
         console.log("AuthController Error: ", err);
         res.status(500).json({ error: err.message });
@@ -50,11 +58,8 @@ exports.login = async (req, res) => {
         if(!isMatch) return res.status(400).json({error: "Incorrect username or password.2"});
 
         //issue token!!!!!! success
-        const token = jwt.sign(
-            { id: user.id, email: user.email }, //payload
-            process.env.JWT_SECRET,             //sercret key
-            { expiresIn: "1h" }                 //options
-        );       
+      
+        const token = issueToken(user);
 
         res.cookie('jwt', token, {
             httpOnly: true,
@@ -74,4 +79,13 @@ exports.login = async (req, res) => {
         console.error("Login error: ", err)
         res.status(500).json({ error: err.message });
     }
+}
+
+function issueToken(user){
+    const token = jwt.sign(
+        { id: user.id, email: user.email }, //payload
+        process.env.JWT_SECRET,             //sercret key
+        { expiresIn: "1h" }                 //options
+    ); 
+    return token;
 }
