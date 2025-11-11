@@ -1,9 +1,8 @@
 const jwt = require("jsonwebtoken");
 
 exports.verifyToken = (req, res, next) => {
-    const authHeader = req.headers["authorization"];
-    const token = authHeader && authHeader.split(" ")[1];
-
+    const token = req.cookies.jwt;
+    
     if(!token){
         return res.status(404).json({error: "Token not found"});
     }

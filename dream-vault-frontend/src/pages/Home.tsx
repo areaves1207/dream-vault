@@ -16,7 +16,9 @@ export default function Home(){
   useEffect(() => {
     async function fetchDreams() {
       try{
-        const response = await fetch(url);
+        const response = await fetch(url, {
+          credentials: 'include'
+        });
         if (!response.ok) throw new Error("Failed to fetch cards");
 
         const data: Dream[] = await response.json();
