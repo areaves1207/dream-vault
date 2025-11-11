@@ -54,7 +54,8 @@ export default function Home(){
 
           
           if (!response.ok) {
-            throw new Error("Failed to save dream card");
+            console.error("DELETE CARD ERROR RESPONSE: ", response.status, response.statusText);
+            throw new Error("Failed to delete dream card.");
           }
 
         }catch(err){
