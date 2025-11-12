@@ -92,6 +92,20 @@ exports.verify = async (req, res) => {
     }
 }
 
+exports.logout = async (req, res) =>{
+    try{
+        res.clearCookie('jwt', {
+            httpOnly: true,
+            sameSite: 'Strict',
+            secure: true
+        });
+        return res.status(200).json({success: true, message: "Successfully logged out"});
+    }catch(err){
+        console.error("Logout error:", err);
+        return res.status(500).json({ success: false, message: 'Logout failed' });
+    }
+}
+
 function issueToken(user, res){
     const token = jwt.sign(
         { id: user.id, email: user.email }, //payload
@@ -106,3 +120,4 @@ function issueToken(user, res){
     });
     return token;
 }
+
