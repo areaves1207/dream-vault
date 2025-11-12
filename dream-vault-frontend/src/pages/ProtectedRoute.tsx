@@ -1,12 +1,36 @@
-import React from "react"
+import React, { useEffect, useState } from "react"
 import { Navigate } from "react-router-dom"
 
 
 export default function ProtectedRoute({ children }: { children: React.ReactNode }){
-    const token = document.cookie.includes("jwt=");
+    const [tokenIsValid, setTokenIsValid] = useState<boolean | null>(null);
 
-    if(!token){
-        console.error("NO JWT FOUND")
+    useEffect(()=>{
+        const tokenIsValid = async() => {
+            const res = await fetch("http://localhost:3000/routes/verify",{
+                method: "GET",
+                headers: { "Content-Type": "application/json" },
+                credentials: "include",
+            });
+
+            const data = await res.json();
+
+            if (res.ok && data.success){
+                setTokenIsValid(true);
+            }else{
+                console.log("res.ok && data.success:", res.ok, data.success);
+                setTokenIsValid(false);
+            }
+        };
+        tokenIsValid();
+    });
+
+    if( tokenIsValid == null ){
+        return <div>...Loading...</div>
+    }
+
+    if ( !tokenIsValid ){
+        console.error("Error moving to site. Rerouting to login.");
         return <Navigate to="/login" state={{ message: "Please log in to access this page." }} replace/>
     }
 
