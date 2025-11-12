@@ -18,7 +18,6 @@ export default function ProtectedRoute({ children }: { children: React.ReactNode
             if (res.ok && data.success){
                 setTokenIsValid(true);
             }else{
-                console.log("res.ok && data.success:", res.ok, data.success);
                 setTokenIsValid(false);
             }
         };
