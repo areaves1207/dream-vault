@@ -9,7 +9,10 @@ export default function Login(){
 
     return(
         
-        <div className={style.login}>         
+        <div className={style.login}> 
+        {message && <div className={style.error}>
+                {message}
+            </div>}        
             <InputForm 
                 targeturl="http://localhost:3000/routes/login" 
                 titleText="Login to your dreamvault account"
@@ -17,9 +20,6 @@ export default function Login(){
                 urlText="Sign up here!"
                 linkurl="http://localhost:5173/register">
             </InputForm>
-            {message && <div className={style.error}>
-                {message}
-            </div>}
         </div>
     )   
 }
