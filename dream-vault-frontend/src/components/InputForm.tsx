@@ -3,8 +3,8 @@ import { useState } from "react";
 import style from "./LoginForm.module.css"
 
 
-export default function InputForm(props: {titleText: string, targeturl: string}){
-    const { titleText, targeturl } = props;
+export default function InputForm(props: {titleText: string, targeturl: string, infoText: string, urlText: string, linkurl: string}){
+    const { titleText, targeturl, infoText, urlText, linkurl } = props;
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const navigate = useNavigate();
@@ -34,6 +34,10 @@ export default function InputForm(props: {titleText: string, targeturl: string})
     <div className={style.loginForm}>
         <form className={style.form} onSubmit={handleSubmit} method="post">
             <p className={style.title}>{titleText}</p>
+
+            <p>{infoText}</p>
+            <a href={linkurl}>{urlText}</a>
+
             <label className={style.label}>Email:</label>
             <input className={style.input} type="email" placeholder="email" id="email" name="email" onChange={(e) => setEmail(e.target.value)} required/>
             <br></br>
