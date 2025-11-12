@@ -43,8 +43,7 @@ exports.editDream = async (req, res) => {
 exports.deleteDream = async (req, res) => {
     try{
         const deletedDreamId = await dreamsModel.deleteDream(req.body);
-        res.status(201);
-        console.log("Dream removed: ", deletedDreamId);
+        res.status(201).json({ message: "Dream removed", id: deletedDreamId });;
     }catch(err){
         console.error(err);
         res.status(500).json({ error: err.message });
