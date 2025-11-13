@@ -98,14 +98,15 @@ export default function Home(){
       } else {
         db_card = await AddNewDreamCard(editCard);
       }
+      console.log("DB CARD:", db_card);
 
       setCards(prevCards => {
-        if(prevCards.some(card => card.dream_id === editCard.dream_id)){ //if alr exists
+        if(prevCards.some(card => card.dream_id === db_card.dream_id)){ //if alr exists
           return prevCards.map(card =>
-            card.dream_id === editCard.dream_id ? {...card, title: db_card.title, description: db_card.description, date: db_card.date} : card
+            card.dream_id === db_card.dream_id ? {...card, title: db_card.title, description: db_card.description, date: db_card.date} : card
           );
         }else{
-          return [...prevCards, editCard];
+          return [...prevCards, db_card];
         }
       });
       
@@ -125,7 +126,7 @@ export default function Home(){
         }
 
         const res = await response.json();
-        console.log("RES:", res);
+        console.log("Adding card:", res);
         return res;
       }catch(err){
         console.error("Error adding card to database: ", err);
@@ -133,6 +134,7 @@ export default function Home(){
     }
 
     async function EditDreamCard(card: Dream){
+      console.log("EDIT CARD:", card);
       try{
         const response = await fetch("http://localhost:3000/dreams/edit_dream", {
           method: "PUT",

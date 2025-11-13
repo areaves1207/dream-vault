@@ -24,6 +24,7 @@ exports.addDream = async(user_id, {title, description, date}) => {
     return {
         dream_id: result.insertId, 
         title,
+        description,
         date
     };
 }
