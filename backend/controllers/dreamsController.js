@@ -25,7 +25,6 @@ exports.addDream = async (req, res) =>{
         }
         
         const newDream = await dreamsModel.addDream(req.user.id, req.body);
-        console.log("Dream added:", newDream);
         res.status(201).json(newDream);
     }catch(err){
         console.error(err);
@@ -36,7 +35,6 @@ exports.addDream = async (req, res) =>{
 exports.editDream = async (req, res) => {
     try{
         const newDream = await dreamsModel.editDream(req.user.id, req.body);
-        console.log("Dream edited:", newDream);
         res.status(201).json(newDream);
     }catch(err){
         console.error(err);

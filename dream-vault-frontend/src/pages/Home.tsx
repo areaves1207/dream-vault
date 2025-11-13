@@ -38,7 +38,6 @@ export default function Home(){
           description: "",
           date: new Date().toISOString().slice(0, 10)
         };
-        console.log("Generated Empty Card:", newCard);
         setCardLockScroll(newCard); //todo: does this cause a memory leak? say we added a card but cancelled it, what happens to the memory of that card? 
     }
 
@@ -73,7 +72,6 @@ export default function Home(){
     }
 
     function editCard(editCard: Dream){
-        console.log("Updating card:", editCard);
         setCardLockScroll(editCard);
     }
 
@@ -98,7 +96,6 @@ export default function Home(){
       } else {
         db_card = await AddNewDreamCard(editCard);
       }
-      console.log("DB CARD:", db_card);
 
       setCards(prevCards => {
         if(prevCards.some(card => card.dream_id === db_card.dream_id)){ //if alr exists
@@ -126,7 +123,6 @@ export default function Home(){
         }
 
         const res = await response.json();
-        console.log("Adding card:", res);
         return res;
       }catch(err){
         console.error("Error adding card to database: ", err);
@@ -134,7 +130,6 @@ export default function Home(){
     }
 
     async function EditDreamCard(card: Dream){
-      console.log("EDIT CARD:", card);
       try{
         const response = await fetch("http://localhost:3000/dreams/edit_dream", {
           method: "PUT",

@@ -47,7 +47,6 @@ exports.editDream = async(user_id, {dream_id, title, description, date}) => {
 }
 
 exports.deleteDream = async(user_id, {dream_id}) => {
-    console.log(user_id, dream_id);
     const[result] = await db.query(
         'DELETE FROM dreams WHERE dream_id=? AND user_id=?', 
         [dream_id, user_id]
