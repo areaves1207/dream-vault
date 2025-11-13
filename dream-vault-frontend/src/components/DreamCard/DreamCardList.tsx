@@ -15,12 +15,12 @@ function DreamCardList({cards, editCard, deleteCard}:CardListProps){
             cards.map(card =>
                 (
                 <DreamCard 
-                    key={card.id}
+                    key={card.dream_id}
                     title={card.title} 
                     description={card.description} 
                     date={card.date}
                     onEdit={()=>{editCard(card);}} 
-                    onDelete={()=>{deleteCard(card.id);}}
+                    onDelete={()=>{deleteCard(card.dream_id);}}
                 />
                 )
             )

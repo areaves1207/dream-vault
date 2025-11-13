@@ -9,51 +9,49 @@ import AddDreamCard from "../components/NewDreamCard.tsx"
 
 
 export default function Home(){
-  const url = "http://localhost:3000/dreams/";
+    const url = "http://localhost:3000/dreams/";
 
-  const [cards, setCards] = useState<Dream[]>([]);
-  const [selectedCard, setSelectedCard] = useState<Dream | null>(null);
-  useEffect(() => {
-    async function fetchDreams() {
-      try{
-        const response = await fetch(url, {
-          credentials: 'include'
-        });
-        if (!response.ok) throw new Error("Failed to fetch cards");
+    const [cards, setCards] = useState<Dream[]>([]);
+    const [selectedCard, setSelectedCard] = useState<Dream | null>(null);
+    useEffect(() => {
+      async function fetchDreams() {
+        try{
+          const response = await fetch(url, {
+            credentials: 'include'
+          });
+          if (!response.ok) throw new Error("Failed to fetch cards");
 
-        const data: Dream[] = await response.json();
-        setCards(data);
-      }catch(err){
-        console.error(err);
+          const data: Dream[] = await response.json();
+          setCards(data);
+        }catch(err){
+          console.error(err);
+        }
       }
-    }
 
-    fetchDreams();
-  }, []);
+      fetchDreams();
+    }, []);
   
     function addCard(){
         const newCard: Dream={
-          id: -1,
+          dream_id: -1,
           title:"",
           description: "",
           date: new Date().toISOString().slice(0, 10)
         };
-        console.log("Added card:", newCard);
         setCardLockScroll(newCard); //todo: does this cause a memory leak? say we added a card but cancelled it, what happens to the memory of that card? 
     }
 
     async function deleteCard(id: number){
-        setCards(prev => prev.filter(card => card.id !== id));
         
         try {
           const response = await fetch("http://localhost:3000/dreams/delete_dream", {
             method: "DELETE",
             headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({id}),
+            body: JSON.stringify({dream_id: id}),
             credentials: "include",
           });
+          setCards(prev => prev.filter(card => card.dream_id !== id));
 
-          
           if (!response.ok) {
             console.error("DELETE CARD ERROR RESPONSE: ", response.status, response.statusText);
             throw new Error("Failed to delete dream card.");
@@ -74,7 +72,6 @@ export default function Home(){
     }
 
     function editCard(editCard: Dream){
-        console.log("Updating card:", editCard);
         setCardLockScroll(editCard);
     }
 
@@ -83,7 +80,6 @@ export default function Home(){
     }
 
     async function save(editCard: Dream){ //edit or add
-      let add = false;
       nullCardUnlockScroll();
       // go through each cards, look for the same cards, if it is then take all its existing info and update title/desc, else just keep prev card
       //if it exists in the list, just update it, otherwise add it
@@ -91,76 +87,76 @@ export default function Home(){
       if(editCard.description == "" && editCard.title == ""){
         return;
       }
+
+      let db_card;
+      const isEdit = cards.some(card => card.dream_id === editCard.dream_id);
+
+      if (isEdit) {
+        db_card = await EditDreamCard(editCard);
+      } else {
+        db_card = await AddNewDreamCard(editCard);
+      }
+
       setCards(prevCards => {
-        if(prevCards.some(card => card.id === editCard.id)){ //if alr exists
+        if(prevCards.some(card => card.dream_id === db_card.dream_id)){ //if alr exists
           return prevCards.map(card =>
-            card.id === editCard.id ? {...card, title: editCard.title, description: editCard.description, date: editCard.date} : card
+            card.dream_id === db_card.dream_id ? {...card, title: db_card.title, description: db_card.description, date: db_card.date} : card
           );
         }else{
-          add = true;
-          return [...prevCards, editCard];
+          return [...prevCards, db_card];
         }
       });
       
-      if(add){
-        //Send results to db
-        try {
-          const response = await fetch("http://localhost:3000/dreams/add_dream", {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify(editCard),
-            credentials: "include",
-          });
+    }
 
-          
-          if (!response.ok) {
-            throw new Error("Failed to save dream card");
-          }
-
-          const data = await response.json();
-          let db_id = data.id;
-
-          setCards(prevCards => {
-            if(prevCards.some(card => card.id === editCard.id)){ //if alr exists
-              return prevCards.map(card =>
-                card.id === editCard.id ? {...card, id: db_id} : card
-              );
-            }else{
-              add = true;
-              console.error("ERROR UPDATING ID FROM DATABASE");
-              return [...prevCards, editCard];
-            }
-          });
-          
-        }catch(err){
-          console.error("Error sending card to db:", err);
+    async function AddNewDreamCard(card: Dream){
+      try {
+        const response = await fetch("http://localhost:3000/dreams/add_dream", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(card),
+          credentials: "include",
+        });
+        
+        if (!response.ok) {
+          throw new Error("Failed to save dream card");
         }
-      }else{
-        try{
-          const response = await fetch("http://localhost:3000/dreams/edit_dream", {
-            method: "PUT",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify(editCard),
-            credentials: "include",
-          });
 
-          if (!response.ok) {
-            throw new Error("Failed to save dream card");
-          }
-          // const data = await response.json();
-        }catch(err){
-          console.error("Error sending card to db:", err);
-        } 
+        const res = await response.json();
+        return res;
+      }catch(err){
+        console.error("Error adding card to database: ", err);
       }
+    }
+
+    async function EditDreamCard(card: Dream){
+      try{
+        const response = await fetch("http://localhost:3000/dreams/edit_dream", {
+          method: "PUT",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(card),
+          credentials: "include",
+        });
+
+        if (!response.ok) {
+          throw new Error("Failed to save dream card");
+        }
+
+        const res = await response.json();
+        return res;
+      }catch(err){
+        console.error("Error sending card to db:", err);
+      } 
     }
 
 
   return (
+    
     <>
       <Header/>
       {selectedCard && <div className={styles.inputForm}>
         <DreamInput 
-          card={selectedCard ?? {id: -1, title:"Error Title", description:"Error Desc.", date:"1999-01-01"}}
+          card={selectedCard ?? {dream_id: -1, title:"Error Title", description:"Error Desc.", date:"1999-01-01"}}
           save={(card: Dream) => {save(card);}} 
           cancel={() => {cancel()} }
         ></DreamInput>

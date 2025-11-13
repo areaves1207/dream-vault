@@ -11,7 +11,8 @@ exports.verifyToken = (req, res, next) => {
         if(err){
             return res.status(403).json({ error: "Invalid or expired token "});
         }
-        req.user = decoded; //this adds the body back to the req
+        req.user = decoded; //add it to the req for EVERYTHING later on (controller&module)
+        //Now we can always access the specific user with req.user.id
         next();
     });
 }

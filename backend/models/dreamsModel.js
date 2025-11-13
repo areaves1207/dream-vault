@@ -1,54 +1,56 @@
 const db = require('../config/db');
 
-exports.getAll = async () => {
-    const[rows] = await db.query('SELECT * FROM dreams');
+exports.getAllDreamsFromUser = async (user_id) => {
+    const[rows] = await db.query('SELECT * FROM dreams WHERE user_id =?',
+        [user_id]
+    );
     return rows;
 };
 
-exports.getDreamFromID = async(id) => {
-    const[rows] = await db.query('SELECT * FROM dreams WHERE id=?', [id]);
+exports.getDreamFromID = async(dream_id) => {
+    const[rows] = await db.query('SELECT * FROM dreams WHERE dream_id=?', [dream_id]);
     return rows[0];
 }
 
-exports.addDream = async({title, description, date}) => {
+exports.addDream = async(user_id, {title, description, date}) => {
     const d = new Date(date);
     const dateString = d.toISOString().split('T')[0];
 
     const[result] = await db.query(
-        'INSERT INTO dreams (title, description, date) VALUES (?,?,?)', 
-        [title, description, dateString]
+        'INSERT INTO dreams (user_id, title, description, date) VALUES (?,?,?,?)', 
+        [user_id, title, description, dateString]
     );
 
     return {
-        id: result.insertId, 
+        dream_id: result.insertId, 
         title,
         description,
         date
     };
 }
 
-exports.editDream = async({id, title, description, date}) => {
+exports.editDream = async(user_id, {dream_id, title, description, date}) => {
     const d = new Date(date);
     const dateString = d.toISOString().split('T')[0];
 
     const[result] = await db.query(
-        'UPDATE dreams SET title=?, description=?, date=? WHERE id=?', 
-        [title, description, dateString, id]
+        'UPDATE dreams SET title=?, description=?, date=? WHERE dream_id=? AND user_id=?', 
+        [title, description, dateString, dream_id, user_id]
     );
 
     return {
-        id, 
+        dream_id, 
         title,
         description,
         date
     };
 }
 
-exports.deleteDream = async({id}) => {
+exports.deleteDream = async(user_id, {dream_id}) => {
     const[result] = await db.query(
-        'DELETE FROM dreams WHERE id=?', 
-        [id]
+        'DELETE FROM dreams WHERE dream_id=? AND user_id=?', 
+        [dream_id, user_id]
     );
 
-    return {id};
+    return {dream_id};
 }
