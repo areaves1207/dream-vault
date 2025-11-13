@@ -20,7 +20,6 @@ exports.getDreamFromID = async (req, res) => {
 
 exports.addDream = async (req, res) =>{
     try{
-        console.log("ID AND {BODY}:", req.user.id, req.body);
         if(req.user.id == null || req.body == null){
             throw Error(message="ID OR BODY IS NULL. CHECK YOUR JWT STATUS");
         }
@@ -48,7 +47,7 @@ exports.editDream = async (req, res) => {
 exports.deleteDream = async (req, res) => {
     try{
         const deletedDreamId = await dreamsModel.deleteDream(req.user.id, req.body);
-        res.status(201).json({ message: "Dream removed", id: deletedDreamId });;
+        res.status(201).json({ message: "Dream removed", id: deletedDreamId });
     }catch(err){
         console.error(err);
         res.status(500).json({ error: err.message });

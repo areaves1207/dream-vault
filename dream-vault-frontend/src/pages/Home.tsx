@@ -33,27 +33,26 @@ export default function Home(){
   
     function addCard(){
         const newCard: Dream={
-          id: -1,
+          dream_id: -1,
           title:"",
           description: "",
           date: new Date().toISOString().slice(0, 10)
         };
-        console.log("Added card:", newCard);
+        console.log("Generated Empty Card:", newCard);
         setCardLockScroll(newCard); //todo: does this cause a memory leak? say we added a card but cancelled it, what happens to the memory of that card? 
     }
 
     async function deleteCard(id: number){
-        setCards(prev => prev.filter(card => card.id !== id));
         
         try {
           const response = await fetch("http://localhost:3000/dreams/delete_dream", {
             method: "DELETE",
             headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({id}),
+            body: JSON.stringify({dream_id: id}),
             credentials: "include",
           });
+          setCards(prev => prev.filter(card => card.dream_id !== id));
 
-          
           if (!response.ok) {
             console.error("DELETE CARD ERROR RESPONSE: ", response.status, response.statusText);
             throw new Error("Failed to delete dream card.");
@@ -92,7 +91,7 @@ export default function Home(){
       }
 
       let db_card;
-      const isEdit = cards.some(card => card.id === editCard.id);
+      const isEdit = cards.some(card => card.dream_id === editCard.dream_id);
 
       if (isEdit) {
         db_card = await EditDreamCard(editCard);
@@ -101,9 +100,9 @@ export default function Home(){
       }
 
       setCards(prevCards => {
-        if(prevCards.some(card => card.id === editCard.id)){ //if alr exists
+        if(prevCards.some(card => card.dream_id === editCard.dream_id)){ //if alr exists
           return prevCards.map(card =>
-            card.id === editCard.id ? {...card, title: db_card.title, description: db_card.description, date: db_card.date} : card
+            card.dream_id === editCard.dream_id ? {...card, title: db_card.title, description: db_card.description, date: db_card.date} : card
           );
         }else{
           return [...prevCards, editCard];
@@ -126,6 +125,7 @@ export default function Home(){
         }
 
         const res = await response.json();
+        console.log("RES:", res);
         return res;
       }catch(err){
         console.error("Error adding card to database: ", err);
@@ -159,7 +159,7 @@ export default function Home(){
       <Header/>
       {selectedCard && <div className={styles.inputForm}>
         <DreamInput 
-          card={selectedCard ?? {id: -1, title:"Error Title", description:"Error Desc.", date:"1999-01-01"}}
+          card={selectedCard ?? {dream_id: -1, title:"Error Title", description:"Error Desc.", date:"1999-01-01"}}
           save={(card: Dream) => {save(card);}} 
           cancel={() => {cancel()} }
         ></DreamInput>
