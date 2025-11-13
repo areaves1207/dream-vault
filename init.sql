@@ -1,4 +1,3 @@
---mysql -u root -p < init.sql
 CREATE DATABASE IF NOT EXISTS dreamvault;
 
 USE dreamvault;

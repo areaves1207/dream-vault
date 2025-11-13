@@ -31,7 +31,13 @@ exports.register = async (req, res) => {
 
         issueToken(user, res);
 
-        return res.status(201).json(user).end();
+        return res.status(201).json({
+            message: "Registration successful!",
+            user: {
+                id: user.id,
+                email: user.email
+            }
+        });
     }catch(err){
         console.log("AuthController Error: ", err);
         res.status(500).json({ error: err.message });
@@ -52,7 +58,6 @@ exports.login = async (req, res) => {
         if(!isMatch) return res.status(400).json({error: "Incorrect username or password.2"});
 
         //issue token!!!!!! success
-      
         issueToken(user, res);
 
         return res.status(200).json({

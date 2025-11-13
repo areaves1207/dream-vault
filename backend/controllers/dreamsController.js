@@ -20,10 +20,14 @@ exports.getDreamFromID = async (req, res) => {
 
 exports.addDream = async (req, res) =>{
     try{
-        console.log("ID AND BODY:", req.user.id, req.body);
+        console.log("ID AND {BODY}:", req.user.id, req.body);
+        if(req.user.id == null || req.body == null){
+            throw Error(message="ID OR BODY IS NULL. CHECK YOUR JWT STATUS");
+        }
+        
         const newDream = await dreamsModel.addDream(req.user.id, req.body);
-        res.status(201).json(newDream);
         console.log("Dream added:", newDream);
+        res.status(201).json(newDream);
     }catch(err){
         console.error(err);
         res.status(500).json({ error: err.message });
@@ -33,8 +37,8 @@ exports.addDream = async (req, res) =>{
 exports.editDream = async (req, res) => {
     try{
         const newDream = await dreamsModel.editDream(req.user.id, req.body);
-        res.status(201).json(newDream);
         console.log("Dream edited:", newDream);
+        res.status(201).json(newDream);
     }catch(err){
         console.error(err);
         res.status(500).json({ error: err.message });
