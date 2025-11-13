@@ -14,8 +14,8 @@ function Header(){
 
     return(
         <header className={styles.header}>
-            <div className={styles.menuIcon}>Menu</div>
             <div className={styles.logo}>Logo</div>
+            <div className={styles.menuIcon}>Dreamvault</div>
             <a href="http://localhost:5173/login" onClick={logout} className={styles.user}>Log out</a>
         </header>
     )
