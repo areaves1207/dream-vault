@@ -1,0 +1,47 @@
+services:
+  db:
+    image: mysql:8.0
+    container_name: db
+    environment:
+      MYSQL_ROOT_PASSWORD: ${DB_PASSWORD}  
+      MYSQL_DATABASE: dreamvault
+    ports:
+      - "3306:3306"
+    volumes:
+      - db_data:/var/lib/mysql
+      - ./init.sql:/docker-entrypoint-initdb.d/init.sql
+
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile.dev
+    container_name: dream-backend
+    restart: always
+    volumes:
+      - ./backend:/app
+    environment:
+      DB_HOST: db
+      DB_USER: root
+      DB_PASSWORD: ${DB_PASSWORD}
+      DB_NAME: dreamvault
+    depends_on:
+      - db
+    ports:
+      - "3000:3000"
+
+  frontend:
+    build:
+      context: ./dream-vault-frontend
+      dockerfile: Dockerfile.dev
+    container_name: dream-frontend
+    restart: always
+    volumes:
+      - ./dream-vault-frontend:/app
+      - /app/node_modules
+    depends_on:
+      - backend
+    ports:
+      - "5173:5173"
+
+volumes:
+  db_data:
