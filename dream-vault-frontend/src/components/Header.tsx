@@ -1,8 +1,9 @@
 import styles from "./Header.module.css";
+import {API_URL} from "../config.ts"
 
 function Header(){
     const logout = async() => {
-        const res = await fetch("http://localhost:3000/routes/logout",{
+        const res = await fetch(API_URL + "/routes/logout",{
             method: "POST",
             headers: { "Content-Type": "application/json" },
             credentials: "include",
@@ -16,7 +17,7 @@ function Header(){
         <header className={styles.header}>
             <div className={styles.logo}>Logo</div>
             <div className={styles.menuIcon}>Dreamvault</div>
-            <a href="http://localhost:5173/login" onClick={logout} className={styles.user}>Log out</a>
+            <a href={API_URL+"login"} onClick={logout} className={styles.user}>Log out</a>
         </header>
     )
 }

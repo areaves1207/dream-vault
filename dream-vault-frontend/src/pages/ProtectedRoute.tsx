@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react"
 import { Navigate } from "react-router-dom"
+import { API_URL } from "../config";
 
 
 export default function ProtectedRoute({ children }: { children: React.ReactNode }){
@@ -7,7 +8,8 @@ export default function ProtectedRoute({ children }: { children: React.ReactNode
 
     useEffect(()=>{
         const tokenIsValid = async() => {
-            const res = await fetch("http://localhost:3000/routes/verify",{
+            const res_url = API_URL + "/routes/verify"
+            const res = await fetch(res_url, {
                 method: "GET",
                 headers: { "Content-Type": "application/json" },
                 credentials: "include",
