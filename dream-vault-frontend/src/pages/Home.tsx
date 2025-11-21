@@ -6,9 +6,10 @@ import "./Home.css";
 import styles from "./Home.module.css";
 import DreamInput from "../components/DreamInput.tsx";
 import AddDreamCard from "../components/NewDreamCard.tsx";
+import {API_URL} from "../config.ts"
 
 export default function Home() {
-  const url = "http://localhost:3000/dreams/";
+  const url = API_URL+"/dreams/";
 
   const [cards, setCards] = useState<Dream[]>([]);
   const [selectedCard, setSelectedCard] = useState<Dream | null>(null);
@@ -41,9 +42,10 @@ export default function Home() {
   }
 
   async function deleteCard(id: number) {
+    const delete_url = API_URL + "/dreams/delete_dream"
     try {
       const response = await fetch(
-        "http://localhost:3000/dreams/delete_dream",
+        delete_url,
         {
           method: "DELETE",
           headers: { "Content-Type": "application/json" },
@@ -111,8 +113,9 @@ export default function Home() {
   }
 
   async function AddNewDreamCard(card: Dream) {
+    let add_dream_url = API_URL+"/dreams/add_dream";
     try {
-      const response = await fetch("http://localhost:3000/dreams/add_dream", {
+      const response = await fetch(add_dream_url, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(card),
@@ -131,8 +134,9 @@ export default function Home() {
   }
 
   async function EditDreamCard(card: Dream) {
+    const edit_dream_url = API_URL + "/dreams/edit_dream"
     try {
-      const response = await fetch("http://localhost:3000/dreams/edit_dream", {
+      const response = await fetch(edit_dream_url, {
         method: "PUT",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(card),
