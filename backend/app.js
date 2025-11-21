@@ -4,10 +4,15 @@ const cors = require('cors');
 const {verifyToken} = require('./middleware/authMiddleware');
 const cookieParser = require("cookie-parser");
 
+const allowed_origins=[
+    'http://dreamvault-frontend.s3-website-us-west-2.amazonaws.com',
+    'https://dreamvault-frontend.s3-website-us-west-2.amazonaws.com',
+    'http://localhost:5173'
+]
 
 app.use(cors({
-    origin: 'http://localhost:5173',
-    credentials: true
+    origin: allowed_origins,
+    credentials: true,
 }));
 
 app.use(express.json());
