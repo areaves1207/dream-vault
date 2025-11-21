@@ -12,7 +12,7 @@ type CardProps = {
     onDelete: ()=> void;
 };
 
-function DreamCard({title, description, date, onEdit, onDelete} : CardProps){
+function DreamCard({title, description, onEdit, onDelete} : CardProps){
     const [isMenuOpen, setMenuOpen] = useState(false);
     
     return(
