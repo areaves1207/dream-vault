@@ -1,10 +1,10 @@
 import style from "./Register.module.css"
 import InputForm from "../components/InputForm"
-import { API_URL } from "../config"
+import { FRONTEND_URL, API_URL } from "../config"
 
 export default function Login(){
     const target_url = API_URL + "/routes/register";
-    const link_url = API_URL + "/login";
+    const link_url = FRONTEND_URL + "/login";
     return(
         <div className={style.login}>
             <InputForm 
