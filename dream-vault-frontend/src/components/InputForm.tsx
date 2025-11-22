@@ -1,5 +1,6 @@
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
+import { Link } from "react-router-dom";
 import style from "./LoginForm.module.css"
 
 
@@ -36,7 +37,7 @@ export default function InputForm(props: {titleText: string, targeturl: string, 
             <p className={style.title}>{titleText}</p>
 
             <p>{infoText}</p>
-            <a href={linkurl}>{urlText}</a>
+            <Link to={linkurl}>{urlText}</Link>
 
             <label className={style.label}>Email:</label>
             <input className={style.input} type="email" placeholder="email" id="email" name="email" onChange={(e) => setEmail(e.target.value)} required/>
