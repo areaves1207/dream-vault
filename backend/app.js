@@ -11,9 +11,15 @@ const allowed_origins=[
 ]
 
 app.use(cors({
-    origin: allowed_origins,
+    origin: (origin, callback) => {
+        if (!origin || allowed_origins.includes(origin)) {
+            return callback(null, true);
+        }
+        callback(new Error("Not allowed by CORS"));
+    },
     credentials: true,
 }));
+
 
 app.use(express.json());
 app.use(cookieParser());
