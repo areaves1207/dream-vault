@@ -4,7 +4,8 @@ exports.verifyToken = (req, res, next) => {
     const token = req.cookies.jwt;
     
     if(!token){
-        return res.status(404).json({error: "Token not found"});
+        console.error("Token not found in middleware verifcation");
+        return res.status(404).json({error: "Token not found..."});
     }
 
     jwt.verify(token, process.env.JWT_SECRET, (err, decoded) => {

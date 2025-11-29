@@ -11,7 +11,6 @@ export default function ProtectedRoute({ children }: { children: React.ReactNode
             const res_url = API_URL + "/routes/verify"
             const res = await fetch(res_url, {
                 method: "GET",
-                headers: { "Content-Type": "application/json" },
                 credentials: "include",
             });
 
@@ -21,6 +20,7 @@ export default function ProtectedRoute({ children }: { children: React.ReactNode
                 setTokenIsValid(true);
             }else{
                 setTokenIsValid(false);
+                console.error("Token failed to validate");
             }
         };
         tokenIsValid();
