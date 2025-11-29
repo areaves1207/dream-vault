@@ -28,6 +28,7 @@ exports.register = async (req, res) => {
         
         //insert into DB!!!!!!!!
         const user = await authModel.register(userData);
+        console.log("User added to DB");
 
         issueToken(user, res);
 
@@ -76,14 +77,17 @@ exports.login = async (req, res) => {
 
 exports.verify = async (req, res) => {
     try{
+        console.log("Verifying token");
         const token = req.cookies.jwt;
 
         if (!token) {
+            console.log("Token not found");
             return res.status(401).json({ error: 'Token not found' });
         }
 
         const decoded = jwt.verify(token, process.env.JWT_SECRET);
         req.user = decoded;
+        console.log("Token decoded");
 
         return res.status(200).json({
             success: true,
@@ -101,7 +105,7 @@ exports.logout = async (req, res) =>{
     try{
         res.clearCookie('jwt', {
             httpOnly: true,
-            sameSite: 'Strict',
+            sameSite: 'none',
             secure: true
         });
         return res.status(200).json({success: true, message: "Successfully logged out"});
@@ -117,12 +121,17 @@ function issueToken(user, res){
         process.env.JWT_SECRET,             //sercret key
         { expiresIn: "1h" }                 //options
     ); 
+    console.log("Token generated");
 
     res.cookie('jwt', token, {
         httpOnly: true,
-        sameSite: 'Strict',
-        maxAge: 3600000
+        secure: true,
+        sameSite: 'none',
+        maxAge: 3600000,
+        path: "/"
     });
+
+    console.log("Token stored as cookie. Returning");
     return token;
 }
 
