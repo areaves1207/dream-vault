@@ -115,6 +115,14 @@ exports.logout = async (req, res) =>{
     }
 }
 
+exports.ping = async (req, res) =>{
+    try{
+        return res.status(200).json({success: true, message: "Ping! Success :)"});
+    }catch(err){
+        return res.status(500).json({ success: false, message: 'Failed to ping' });
+    }
+}
+
 function issueToken(user, res){
     const token = jwt.sign(
         { id: user.id, email: user.email }, //payload
