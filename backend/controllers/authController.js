@@ -52,11 +52,11 @@ exports.login = async (req, res) => {
         
         //grab user's info from given email. make sure it returns something
         const user = await authModel.getUserByEmail(req.body);
-        if(!user) return res.status(400).json({error: "Incorrect username or password.1"});
+        if(!user) return res.status(400).json({error: "Incorrect username or password."});
 
         //compare the two. if same, match is success, submitted info correct
         const isMatch = await bcrypt.compare(req.body.password, user.hashed_password);
-        if(!isMatch) return res.status(400).json({error: "Incorrect username or password.2"});
+        if(!isMatch) return res.status(400).json({error: "Incorrect username or password."});
 
         //issue token!!!!!! success
         issueToken(user, res);
