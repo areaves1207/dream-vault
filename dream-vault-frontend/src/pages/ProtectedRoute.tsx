@@ -26,10 +26,6 @@ export default function ProtectedRoute({ children }: { children: React.ReactNode
         tokenIsValid();
     });
 
-    if( tokenIsValid == null ){
-        return <div>...Loading...</div>
-    }
-
     if ( !tokenIsValid ){
         console.error("Error moving to site. Rerouting to login.");
         return <Navigate to="/login" state={{ message: "Please log in to access this page." }} replace/>
