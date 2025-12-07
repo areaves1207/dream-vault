@@ -17,7 +17,7 @@ function Header() {
     <header className={styles.header}>
       <div className={styles.logo}>Logo</div>
       <div className={styles.menuIcon}>Dreamvault</div>
-      <a href={FRONTEND_URL + "login"} onClick={logout} className={styles.user}>
+      <a href={FRONTEND_URL + "/login"} onClick={logout} className={styles.user}>
         Log out
       </a>
     </header>
