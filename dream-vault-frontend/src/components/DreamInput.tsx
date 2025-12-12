@@ -45,7 +45,9 @@ export default function DreamInput({ card, save, cancel }: DreamInputProps) {
           onClick={() => setCalendarOpen(true)}
         >
           <p className={styles.calendarIcon}>&#128197;</p>
-          <p className={styles.calendarText}>{date?.toLocaleDateString()}</p>
+          <p className={styles.calendarText}>
+            {date?.toLocaleDateString("en-US", { timeZone: "UTC" })}
+          </p>
         </div>
       </div>
 
