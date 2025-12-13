@@ -1,4 +1,5 @@
 import styles from "./Header.module.css";
+import logo from "../assets/logo.png";
 import { API_URL, FRONTEND_URL } from "../config.ts";
 
 function Header() {
@@ -15,9 +16,15 @@ function Header() {
 
   return (
     <header className={styles.header}>
-      <div className={styles.logo}>Logo</div>
+      <div>
+        <img className={styles.logo} src={logo}></img>
+      </div>
       <div className={styles.menuIcon}>Dreamvault</div>
-      <a href={FRONTEND_URL + "/login"} onClick={logout} className={styles.user}>
+      <a
+        href={FRONTEND_URL + "/login"}
+        onClick={logout}
+        className={styles.user}
+      >
         Log out
       </a>
     </header>

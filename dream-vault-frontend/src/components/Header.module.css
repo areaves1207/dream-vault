@@ -11,6 +11,7 @@
     padding-bottom: 1em;
 
     margin: 0;
+    height: 32px;
 
     background-color: var(--color-secondary);
 }
@@ -19,4 +20,11 @@
     color: white;
     font-size: large;
     font-weight: bold;
+}
+
+.logo{
+  height: 100%; 
+  width: auto;
+  max-height: 100%;
+  object-fit: contain;
 }
