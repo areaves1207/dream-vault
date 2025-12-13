@@ -36,7 +36,7 @@ export default function Home() {
       dream_id: -1,
       title: "",
       description: "",
-      date: new Date().toISOString().slice(0, 10),
+      date: new Date().toLocaleDateString("en-CA"), //auto formats to YYYY-MM-DD
     };
     selectCard(newCard); //todo: does this cause a memory leak? say we added a card but cancelled it, what happens to the memory of that card?
   }
