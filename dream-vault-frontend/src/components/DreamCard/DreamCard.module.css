@@ -6,6 +6,8 @@
     padding: 5vh;
     padding-top: 5px;
     position: relative;
+    text-overflow: clip;
+    overflow-wrap: break-word;
 }
 
 .menuButton{
@@ -27,4 +29,13 @@
     right: 5px;
     position: absolute;
     z-index: 10;
+}
+
+.cardInfo{
+    text-overflow: clip;
+    display: -webkit-box;
+    line-clamp: 4;
+    -webkit-line-clamp: 4;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
 }

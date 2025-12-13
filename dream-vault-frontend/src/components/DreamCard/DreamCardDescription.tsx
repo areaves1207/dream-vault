@@ -1,15 +1,15 @@
-import styles from './DreamCardDescription.module.css'
+import styles from "./DreamCardDescription.module.css";
 
 type DescriptionText = {
-    text: string;
+  text: string;
 };
 
-function DreamCardDescription({text} : DescriptionText){
-    return(
+function DreamCardDescription({ text }: DescriptionText) {
+  return (
     <div className={styles.description}>
-        {text ? text : "Missing Description"}
+      {text ? text : "Missing Description"}
     </div>
-    )
+  );
 }
 
-export default DreamCardDescription
+export default DreamCardDescription;
