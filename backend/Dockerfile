@@ -4,5 +4,6 @@ COPY package*.json ./
 RUN npm install
 COPY . .
 
-EXPOSE 8080
+#port 3000 for prod
+EXPOSE 3000 
 CMD ["node", "server.js"]
