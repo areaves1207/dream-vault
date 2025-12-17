@@ -1,6 +1,7 @@
 const authModel = require('../models/authModel');
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
+const sendEmail = require("../utils/ses_sendEmail");
 
 exports.register = async (req, res) => {
     try{    
@@ -30,10 +31,11 @@ exports.register = async (req, res) => {
         const user = await authModel.register(userData);
         console.log("User added to DB");
 
-        issueToken(user, res);
+        // issueToken(user, res); //todo, replace token with emailing funciton. we dont want ot give token until verified.
+        sendEmail.sendEmail("areaves@mines.edu");
 
         return res.status(201).json({
-            message: "Registration successful!",
+            message: "User registered. Still requires email verification.",
             user: {
                 id: user.id,
                 email: user.email
@@ -143,3 +145,7 @@ function issueToken(user, res){
     return token;
 }
 
+
+function verifyEmail(user, res){
+    sendEmail.sendEmail("areaves@mines.edu");
+}

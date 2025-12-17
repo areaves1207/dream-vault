@@ -17,3 +17,7 @@ exports.verifyToken = (req, res, next) => {
         next();
     });
 }
+
+exports.verifyEmail = ( req, res, next )=>{
+    next();
+}
