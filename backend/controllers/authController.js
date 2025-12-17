@@ -60,6 +60,8 @@ exports.login = async (req, res) => {
         const isMatch = await bcrypt.compare(req.body.password, user.hashed_password);
         if(!isMatch) return res.status(400).json({error: "Incorrect username or password."});
 
+        if(user.verified == false) return res.status(400).json({error: "User must verify account through email."});
+
         //issue token!!!!!! success
         issueToken(user, res);
 
