@@ -1,0 +1,21 @@
+import { Resend } from 'resend';
+
+export async function sendEmail(destinationAddress, id, token) { //https://www.dreamvault.life
+    console.log("Sending email");
+    try{
+        const verificationURL = `http://localhost:5173/verify-email?id=${id}&token=${token}`
+        const htmlbody = `<h1>DreamVault - Verify your email</h1><p>Welcome to DreamVault!</p><a href=${verificationURL}>Click here to verify your email</a>`
+    
+        const resend = new Resend(process.env.RESEND_SECRET);
+
+        resend.emails.send({
+        from: 'no-reply@dreamvault.life',
+        to: destinationAddress,
+        subject: 'Activate your DreamVault account',
+        html: htmlbody
+        });
+    }
+    catch(e){
+        console.log("Failed to send email");
+    }
+}

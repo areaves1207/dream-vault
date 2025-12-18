@@ -2,7 +2,7 @@ const authModel = require('../models/authModel');
 const bcrypt = require("bcrypt");
 const crypto = require('crypto');
 const jwt = require("jsonwebtoken");
-const sendEmail = require("../utils/ses_sendEmail");
+const sendEmail = require("../utils/resend_sendEmail");
 
 exports.register = async (req, res) => {
     try{    
@@ -48,7 +48,7 @@ exports.register = async (req, res) => {
         const verificationUpdate = await authModel.addVerificationInfo(user.id, hashed_token, expiresAt);
         const token_id = verificationUpdate.verification_id;
 
-        sendEmail.sendEmail("areaves@mines.edu", token_id, verification_token);
+        sendEmail.sendEmail(user.email, token_id, verification_token);
 
 
         return res.status(201).json({
