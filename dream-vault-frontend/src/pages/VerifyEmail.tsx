@@ -1,11 +1,12 @@
 // import style from "./VerifyEmail.module.css"
-import { FRONTEND_URL, API_URL } from "../config"
+import { API_URL } from "../config"
 import { useSearchParams } from "react-router-dom";
 import { useEffect } from "react";
 import { useNavigate } from 'react-router-dom'
 
 export default function VerifyEmail(){
     const [params] = useSearchParams();
+    const token_id = params.get("id");
     const token = params.get("token");
     const navigate = useNavigate();
 
@@ -27,7 +28,7 @@ export default function VerifyEmail(){
             method: "POST",
             credentials: "include",
             headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ token }), 
+            body: JSON.stringify({ id: token_id, token }), 
         });
         if(response.status === 200){
             navigate('/');

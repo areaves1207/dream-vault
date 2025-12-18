@@ -38,11 +38,10 @@ exports.register = async (req, res) => {
         console.log("Verification token:", verification_token);
 
         const hashed_token = hash_verification_token(verification_token);
-        console.log("ID and TOKEN:", user.id, hashed_token);
-        console.log("BODY:", user);
         const verificationUpdate = await authModel.addVerificationInfo(user.id, hashed_token);
+        const token_id = verificationUpdate.verification_id;
 
-        sendEmail.sendEmail("areaves@mines.edu", verification_token);
+        sendEmail.sendEmail("areaves@mines.edu", token_id, verification_token);
 
 
         return res.status(201).json({
@@ -56,7 +55,7 @@ exports.register = async (req, res) => {
             }
         });
     }catch(err){
-        console.log("AuthController Error: ", err);
+        console.log("Registration error: ", err);
         res.status(500).json({ error: err.message });
     }
 }
@@ -65,10 +64,10 @@ exports.verify_email = async(req, res) => {
     console.log("Verify email reached");
     try{
         const token = req.body.token;
-        console.log("token:", token);
+        const token_id = req.body.id;
 
         if(!token){
-            console.error("Token not found in query. Attached is the token:", token);
+            console.error("Token not found in url query. Attached is the token received:", token);
             throw new Error("Token not found in query");
         }
 
@@ -83,14 +82,14 @@ exports.verify_email = async(req, res) => {
         // 5) on failure, give the user an error (maybe time expired, query was wrong, dunno)
         
         const hashed_token = hash_verification_token(token);
-        const token_info = await authModel.checkVerificationInfo(hashed_token);
+        const token_info = await authModel.checkVerificationInfo(hashed_token, token_id);
 
         if(!token_info){
             console.error("TOKEN INFO MISSING:", token_info);
             throw new Error("TOKEN INFO MISSING");            
         }
 
-        const token_id = token_info[0].token_id;
+        // const token_id = token_info[0].token_id;
         const user_id = token_info[0].user_id;
 
         if(!token_id){

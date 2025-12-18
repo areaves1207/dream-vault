@@ -20,15 +20,15 @@ exports.addVerificationInfo = async(user_id, verification_hash) => {
     );
 
     return{
-        verification_id: result.token_id,
+        verification_id: result.insertId,
         user_id
     }
 }
 
-exports.checkVerificationInfo = async(token) => {
+exports.checkVerificationInfo = async(token, id) => {
     const [result] = await db.query(
-        'SELECT user_id, token_id FROM user_verification WHERE token=?',
-        [token]
+        'SELECT user_id, token_id FROM user_verification WHERE token=? AND token_id=?',
+        [token, id]
     )
 
     return result;
