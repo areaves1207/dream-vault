@@ -1,11 +1,11 @@
 import { SESClient, SendEmailCommand } from "@aws-sdk/client-ses";
 
 const ses = new SESClient({
-  region: "us-west-2", // must match SES region
+  region: "us-west-2",
 });
 
-export async function sendEmail(destinationAddress, token) {
-    const verificationURL = `https://www.dreamvault.life/verify-email?token=${token}`
+export async function sendEmail(destinationAddress, token) { //https://www.dreamvault.life
+    const verificationURL = `http://localhost:5173/verify-email?token=${token}`
     const htmlbody = `<h1>DreamVault - Verify your email</h1><p>Welcome to DreamVault!</p><a href=${verificationURL}>Click here to verify your email</a>`
     
     const params = {

@@ -65,11 +65,12 @@ exports.register = async (req, res) => {
 exports.verify_email = async(req, res) => {
     console.log("Verify email reached");
     try{
-        const token = req.query;
+        const token = req.body.token;
+        console.log("token:", token);
 
         if(!token){
             console.error("Token not found in query. Attached is the token:", token);
-            throw error("Token not found in query");
+            throw new Error("Token not found in query");
         }
 
         //TODO: IN THE FUTURE WE CANNOT ONLY RELY ON CHECKING JUST THE HASHED TOKEN. WE NEED TO GET A TOKEN ID OR USER ID OR SOMETHING
@@ -83,16 +84,22 @@ exports.verify_email = async(req, res) => {
         // 5) on failure, give the user an error (maybe time expired, query was wrong, dunno)
         
         const hashed_token = hash_verification_token(token);
-        const token_info = authModel.checkVerificationInfo(hashed_token);
-        const token_id = token_info.token_id;
-        const user_id = token_info.user_id;
+        const token_info = await authModel.checkVerificationInfo(hashed_token);
+
+        if(!token_info){
+            console.error("TOKEN INFO MISSING:", token_info);
+            throw new Error("TOKEN INFO MISSING");            
+        }
+
+        const token_id = token_info[0].token_id;
+        const user_id = token_info[0].user_id;
 
         if(!token_id){
             console.error("TOKEN ID ERROR. ATTACHED IS THE ID:", token_id);
-            throw error("Query not found. Is it incorrect?");
+            throw new Error("URL query not found. Is it incorrect?");
         }
 
-        authModel.verifyUser(user_id);
+        await authModel.verifyUser(user_id);
 
 
         //TODO send user to /verify to issue a jwt since this should mean success.
@@ -212,6 +219,6 @@ function issueToken(user, res){
 
 function hash_verification_token(unhashed_token){
     const hash = crypto.createHash('sha256');
-    const hashed_token = hash.update(unhashed_token);
+    const hashed_token = hash.update(unhashed_token).digest('hex'); //64 char string output
     return hashed_token;
 }
