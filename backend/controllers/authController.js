@@ -37,8 +37,15 @@ exports.register = async (req, res) => {
         const verification_token = hash_verification_token(String(user.id) + String(user.email));
         console.log("Verification token:", verification_token);
 
+        //store time as UTC
+        const now = new Date();
+        const expirationTime = now.getTime() + (20 * 60 * 1000); //20 minutes until expired
+        const dateObj = new Date(expirationTime);
+        const isoString = dateObj.toISOString();
+        const mysqlDatetimeString = isoString.slice(0, 19).replace('T', ' ');
+
         const hashed_token = hash_verification_token(verification_token);
-        const verificationUpdate = await authModel.addVerificationInfo(user.id, hashed_token);
+        const verificationUpdate = await authModel.addVerificationInfo(user.id, hashed_token, mysqlDatetimeString);
         const token_id = verificationUpdate.verification_id;
 
         sendEmail.sendEmail("areaves@mines.edu", token_id, verification_token);
@@ -71,7 +78,6 @@ exports.verify_email = async(req, res) => {
             throw new Error("Token not found in query");
         }
 
-        //TODO: IN THE FUTURE WE CANNOT ONLY RELY ON CHECKING JUST THE HASHED TOKEN. WE NEED TO GET A TOKEN ID OR USER ID OR SOMETHING
         //we store the hashed token in the user_verification table.
         // 1) hash the token that we have (the query we have from the url)
         // 2) check the db to see if that hash exists in there.

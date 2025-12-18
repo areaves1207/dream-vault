@@ -12,11 +12,11 @@ exports.register = async ({email, password}) => {
     }
 }
 
-exports.addVerificationInfo = async(user_id, verification_hash) => {
+exports.addVerificationInfo = async(user_id, verification_hash, expirationTime) => {
     //TODO ADD EXPIRATION DATE/TIME
     const [result] = await db.query(
-        'INSERT INTO user_verification (user_id, token) VALUES (?, ?)',
-        [user_id, verification_hash]
+        'INSERT INTO user_verification (user_id, token, token_expires) VALUES (?, ?, ?)',
+        [user_id, verification_hash, expirationTime]
     );
 
     return{
