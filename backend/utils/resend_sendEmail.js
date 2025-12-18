@@ -4,7 +4,12 @@ export async function sendEmail(destinationAddress, id, token) { //https://www.d
     console.log("Sending email");
     try{
         const verificationURL = `http://localhost:5173/verify-email?id=${id}&token=${token}`
-        const htmlbody = `<h1>DreamVault - Verify your email</h1><p>Welcome to DreamVault!</p><a href=${verificationURL}>Click here to verify your email</a>`
+        const htmlbody = `
+        <h1>DreamVault - Verify your email</h1>
+        <p>Welcome to DreamVault!</p>
+        <a href=${verificationURL}>Click here to verify your email</a>
+        <p>This link will expire in 20 minutes."</p>
+        `
     
         const resend = new Resend(process.env.RESEND_SECRET);
 

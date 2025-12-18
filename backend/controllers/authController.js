@@ -104,7 +104,6 @@ exports.verify_email = async(req, res) => {
         // const token_id = token_info[0].token_id;
         const user_id = token_info[0].user_id;
         const expiration_time = new Date(token_info[0].token_expires + "Z").getTime();
-        console.log("TIme:", token_info[0].token_expires);
 
         if(Date.now() > expiration_time){
             console.error("Verificaiton token expired. Current time:", Date.now(), "...Expired at:", expiration_time);
