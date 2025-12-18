@@ -7,7 +7,7 @@ router.post('/login', authController.login);
 router.get('/verify', authController.verify);
 router.post('/logout', authController.logout);
 
-// router.post('/verify-email', authController.)
+router.get('/verify-email', authController.verify_email);
 
 router.post('/ping',  authController.ping);
 

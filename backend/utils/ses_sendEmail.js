@@ -5,7 +5,7 @@ const ses = new SESClient({
 });
 
 export async function sendEmail(destinationAddress, token) {
-    const verificationURL = `https://www.dreamvault.life/verifyEmail?token=${token}`
+    const verificationURL = `https://www.dreamvault.life/verify-email?token=${token}`
     const htmlbody = `<h1>DreamVault - Verify your email</h1><p>Welcome to DreamVault!</p><a href=${verificationURL}>Click here to verify your email</a>`
     
     const params = {

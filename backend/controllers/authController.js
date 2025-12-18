@@ -1,5 +1,6 @@
 const authModel = require('../models/authModel');
 const bcrypt = require("bcrypt");
+const crypto = require('crypto');
 const jwt = require("jsonwebtoken");
 const sendEmail = require("../utils/ses_sendEmail");
 
@@ -27,23 +28,84 @@ exports.register = async (req, res) => {
             password: hashed_pass 
         }
         
-        //insert into DB!!!!!!!!
+        //insert user into DB
         const user = await authModel.register(userData);
         console.log("User added to DB");
 
-        // issueToken(user, res); //todo, replace token with emailing funciton. we dont want ot give token until verified.
-        sendEmail.sendEmail("areaves@mines.edu");
+
+
+
+        const verification_token = String(user.id) + String(user.email);
+        console.log("Verification token:", verification_token);
+
+        const hashed_token = hash_verification_token(verification_token);
+        console.log("ID and TOKEN:", user.id, hashed_token);
+        console.log("BODY:", user);
+        const verificationUpdate = await authModel.addVerificationInfo(user.id, hashed_token);
+
+        sendEmail.sendEmail("areaves@mines.edu", verification_token);
+
 
         return res.status(201).json({
             message: "User registered. Still requires email verification.",
             user: {
                 id: user.id,
                 email: user.email
+            },
+            verification: {
+                id: verificationUpdate.verification_id
             }
         });
     }catch(err){
         console.log("AuthController Error: ", err);
         res.status(500).json({ error: err.message });
+    }
+}
+
+exports.verify_email = async(req, res) => {
+    console.log("Verify email reached");
+    try{
+        const token = req.query;
+
+        if(!token){
+            console.error("Token not found in query. Attached is the token:", token);
+            throw error("Token not found in query");
+        }
+
+        //TODO: IN THE FUTURE WE CANNOT ONLY RELY ON CHECKING JUST THE HASHED TOKEN. WE NEED TO GET A TOKEN ID OR USER ID OR SOMETHING
+        //we store the hashed token in the user_verification table.
+        // 1) hash the token that we have (the query we have from the url)
+        // 2) check the db to see if that hash exists in there.
+        // 3) on success, we get the token id, and maybe user id (to assign a jwt perhaps?)
+        // 4) on success, we also must update the user's verifiation column to true, along with the column in user_verification *
+        //      *ALSO TODO: maybe we can merge the two columns? I dont like having two columns in different tables to represent the same info. we need one source of truth.
+        // 4) profit
+        // 5) on failure, give the user an error (maybe time expired, query was wrong, dunno)
+        
+        const hashed_token = hash_verification_token(token);
+        const token_info = authModel.checkVerificationInfo(hashed_token);
+        const token_id = token_info.token_id;
+        const user_id = token_info.user_id;
+
+        if(!token_id){
+            console.error("TOKEN ID ERROR. ATTACHED IS THE ID:", token_id);
+            throw error("Query not found. Is it incorrect?");
+        }
+
+        authModel.verifyUser(user_id);
+
+
+        //TODO send user to /verify to issue a jwt since this should mean success.
+
+        return res.status(200).json({message: "Uh, no issues reported dunno"});
+
+
+
+
+
+    }catch(error){
+        console.log("Error in verify email:", error.message);
+        return res.status(400).json({error: error.message});
     }
 }
 
@@ -148,6 +210,8 @@ function issueToken(user, res){
 }
 
 
-function verifyEmail(user, res){
-    sendEmail.sendEmail("areaves@mines.edu");
+function hash_verification_token(unhashed_token){
+    const hash = crypto.createHash('sha256');
+    const hashed_token = hash.update(unhashed_token);
+    return hashed_token;
 }
