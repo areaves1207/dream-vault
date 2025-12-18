@@ -13,7 +13,6 @@ exports.register = async ({email, password}) => {
 }
 
 exports.addVerificationInfo = async(user_id, verification_hash, expirationTime) => {
-    //TODO ADD EXPIRATION DATE/TIME
     const [result] = await db.query(
         'INSERT INTO user_verification (user_id, token, token_expires) VALUES (?, ?, ?)',
         [user_id, verification_hash, expirationTime]
@@ -27,19 +26,22 @@ exports.addVerificationInfo = async(user_id, verification_hash, expirationTime) 
 
 exports.checkVerificationInfo = async(token, id) => {
     const [result] = await db.query(
-        'SELECT user_id, token_id FROM user_verification WHERE token=? AND token_id=?',
+        'SELECT user_id, token_id, token_expires FROM user_verification WHERE token=? AND token_id=?',
         [token, id]
     )
 
     return result;
 }
 
-exports.verifyUser = async(user_id) => {
+exports.verifyUser = async(user_id, token_id) => {
     const [result] = await db.query(
         'UPDATE users SET verified=TRUE WHERE id=?',
         [user_id]
     );
-    //TODO WE NEED TO UPDATE VERIFIED IN THE users_verification FIELD
+    const [r] = await db.query(
+        'UPDATE user_verification SET token_verified=TRUE WHERE token_id=?',
+        [token_id]
+    );
 }
 
 exports.getUserByEmail = async ({email}) => {

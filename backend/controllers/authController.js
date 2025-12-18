@@ -38,14 +38,14 @@ exports.register = async (req, res) => {
         console.log("Verification token:", verification_token);
 
         //store time as UTC
-        const now = new Date();
-        const expirationTime = now.getTime() + (20 * 60 * 1000); //20 minutes until expired
-        const dateObj = new Date(expirationTime);
-        const isoString = dateObj.toISOString();
-        const mysqlDatetimeString = isoString.slice(0, 19).replace('T', ' ');
+        const expiresAt = new Date(Date.now() + 20 * 60 * 1000)
+                            .toISOString()
+                            .slice(0, 19)
+                            .replace("T", " "); 
+        console.log("Will expire at:", expiresAt, "aka: ",(Date.now() + 20 * 60 * 1000));
 
         const hashed_token = hash_verification_token(verification_token);
-        const verificationUpdate = await authModel.addVerificationInfo(user.id, hashed_token, mysqlDatetimeString);
+        const verificationUpdate = await authModel.addVerificationInfo(user.id, hashed_token, expiresAt);
         const token_id = verificationUpdate.verification_id;
 
         sendEmail.sendEmail("areaves@mines.edu", token_id, verification_token);
@@ -71,11 +71,17 @@ exports.verify_email = async(req, res) => {
     console.log("Verify email reached");
     try{
         const token = req.body.token;
-        const token_id = req.body.id;
-
+        
         if(!token){
             console.error("Token not found in url query. Attached is the token received:", token);
             throw new Error("Token not found in query");
+        }
+
+        const token_id = req.body.id;
+
+        if(!token_id){
+            console.error("TOKEN ID ERROR. ATTACHED IS THE ID:", token_id);
+            throw new Error("URL query not found. Is it incorrect?");
         }
 
         //we store the hashed token in the user_verification table.
@@ -97,13 +103,15 @@ exports.verify_email = async(req, res) => {
 
         // const token_id = token_info[0].token_id;
         const user_id = token_info[0].user_id;
+        const expiration_time = new Date(token_info[0].token_expires + "Z").getTime();
+        console.log("TIme:", token_info[0].token_expires);
 
-        if(!token_id){
-            console.error("TOKEN ID ERROR. ATTACHED IS THE ID:", token_id);
-            throw new Error("URL query not found. Is it incorrect?");
+        if(Date.now() > expiration_time){
+            console.error("Verificaiton token expired. Current time:", Date.now(), "...Expired at:", expiration_time);
+            throw new Error("Verificaiton token expired. Current time:", Date.now(), "...Expired at:", expiration_time);
         }
 
-        await authModel.verifyUser(user_id);
+        await authModel.verifyUser(user_id, token_id);
 
         //Give user jwt
         const user = await authModel.getUserByID(user_id);
