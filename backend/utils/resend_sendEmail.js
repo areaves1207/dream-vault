@@ -1,9 +1,9 @@
 import { Resend } from 'resend';
 
-export async function sendEmail(destinationAddress, id, token) { //https://www.dreamvault.life
+export async function sendEmail(destinationAddress, id, token) {
     console.log("Sending email");
     try{
-        const verificationURL = `http://localhost:5173/verify-email?id=${id}&token=${token}`
+        const verificationURL = `https://www.dreamvault.life/verify-email?id=${id}&token=${token}`
         const htmlbody = `
         <h1>DreamVault - Verify your email</h1>
         <p>Welcome to DreamVault!</p>
