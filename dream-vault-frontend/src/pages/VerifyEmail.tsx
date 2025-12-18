@@ -2,10 +2,12 @@
 import { FRONTEND_URL, API_URL } from "../config"
 import { useSearchParams } from "react-router-dom";
 import { useEffect } from "react";
+import { useNavigate } from 'react-router-dom'
 
 export default function VerifyEmail(){
     const [params] = useSearchParams();
     const token = params.get("token");
+    const navigate = useNavigate();
 
     const verification_url = API_URL + "/routes/verify-email";
 
@@ -27,7 +29,13 @@ export default function VerifyEmail(){
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({ token }), 
         });
-        console.log("CHECK VALIDATION RESPONSE:", response);
+        if(response.status === 200){
+            navigate('/');
+        }else{
+            console.error("Error validating");
+            navigate('/register');
+        }
+        
     }
 
     return(

@@ -33,9 +33,8 @@ exports.register = async (req, res) => {
         console.log("User added to DB");
 
 
-
-
-        const verification_token = String(user.id) + String(user.email);
+        //not a typo. our token is the 64 char hash of this, then the hash of THAT is stored in DB
+        const verification_token = hash_verification_token(String(user.id) + String(user.email));
         console.log("Verification token:", verification_token);
 
         const hashed_token = hash_verification_token(verification_token);
@@ -101,17 +100,17 @@ exports.verify_email = async(req, res) => {
 
         await authModel.verifyUser(user_id);
 
+        //Give user jwt
+        const user = await authModel.getUserByID(user_id);
+        if(!user){
+            console.error("Error getting user from ID");
+            throw new Error("Error getting user from ID");
+        }
+        issueToken(user, res);
 
-        //TODO send user to /verify to issue a jwt since this should mean success.
-
-        return res.status(200).json({message: "Uh, no issues reported dunno"});
-
-
-
-
-
+        return res.status(200).json({message: "Success"});
     }catch(error){
-        console.log("Error in verify email:", error.message);
+        console.log("Error in email verification:", error.message);
         return res.status(400).json({error: error.message});
     }
 }
