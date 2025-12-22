@@ -6,15 +6,13 @@ import "./Home.css";
 import styles from "./Home.module.css";
 import DreamInput from "../components/DreamInput.tsx";
 import AddDreamCard from "../components/NewDreamCard.tsx";
-import { API_URL, FRONTEND_URL } from "../config.ts";
-import Searchbar from "../components/Searchbar.tsx";
+import { API_URL } from "../config.ts";
 
 export default function Home() {
   const url = API_URL + "/dreams/";
 
   const [allDreams, setAllDreams] = useState<Dream[]>([]);
   const [visibleDreams, setVisibleDreams] = useState<Dream[]>([]);
-  const [isSearching, setIsSearching] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
 
   const [selectedCard, setSelectedCard] = useState<Dream | null>(null);
@@ -173,10 +171,8 @@ export default function Home() {
       });
 
       const data: Dream[] = await response.json();
-      setIsSearching(true);
 
       if (!response.ok) {
-        setIsSearching(false);
         console.log("Fail:", response);
         throw new Error("Failed to search for dreams");
       }
@@ -190,7 +186,7 @@ export default function Home() {
   }
 
   function clearSearch(){
-    setIsSearching(false);
+    setSearchQuery("");
     setVisibleDreams(allDreams);
   }
 
@@ -232,7 +228,7 @@ export default function Home() {
             />
             
             <button onClick={(e) => {e.preventDefault; searchDreams(); }}>Search</button>
-            <button onClick={(e) => {e.preventDefault; clearSearch;}}>Clear</button>
+            <button onClick={(e) => {e.preventDefault; clearSearch();}}>Clear</button>
         </div>
 
 
