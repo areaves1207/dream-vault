@@ -6,12 +6,17 @@ import "./Home.css";
 import styles from "./Home.module.css";
 import DreamInput from "../components/DreamInput.tsx";
 import AddDreamCard from "../components/NewDreamCard.tsx";
-import { API_URL } from "../config.ts";
+import { API_URL, FRONTEND_URL } from "../config.ts";
+import Searchbar from "../components/Searchbar.tsx";
 
 export default function Home() {
   const url = API_URL + "/dreams/";
 
-  const [cards, setCards] = useState<Dream[]>([]);
+  const [allDreams, setAllDreams] = useState<Dream[]>([]);
+  const [visibleDreams, setVisibleDreams] = useState<Dream[]>([]);
+  const [isSearching, setIsSearching] = useState(false);
+  const [searchQuery, setSearchQuery] = useState("");
+
   const [selectedCard, setSelectedCard] = useState<Dream | null>(null);
   useEffect(() => {
     async function fetchDreams() {
@@ -22,7 +27,8 @@ export default function Home() {
         if (!response.ok) throw new Error("Failed to fetch cards");
 
         const data: Dream[] = await response.json();
-        setCards(data);
+        setAllDreams(data);
+        setVisibleDreams(data);
       } catch (err) {
         console.error(err);
       }
@@ -50,7 +56,7 @@ export default function Home() {
         body: JSON.stringify({ dream_id: id }),
         credentials: "include",
       });
-      setCards((prev) => prev.filter((card) => card.dream_id !== id));
+      setVisibleDreams((prev) => prev.filter((card) => card.dream_id !== id));
 
       if (!response.ok) {
         console.error(
@@ -82,7 +88,7 @@ export default function Home() {
     }
 
     let db_card;
-    const isEdit = cards.some((card) => card.dream_id === editCard.dream_id);
+    const isEdit = visibleDreams.some((card) => card.dream_id === editCard.dream_id);
 
     if (isEdit) {
       db_card = await EditDreamCard(editCard);
@@ -91,7 +97,7 @@ export default function Home() {
     }
     console.error("DATE:", db_card.date);
 
-    setCards((prevCards) => {
+    setVisibleDreams((prevCards) => {
       if (prevCards.some((card) => card.dream_id === db_card.dream_id)) {
         //if alr exists
         return prevCards.map((card) =>
@@ -152,6 +158,41 @@ export default function Home() {
     }
   }
 
+  async function searchDreams(query:string) {
+    if(searchQuery.length > 2)
+      {searchDreams(searchQuery);}
+    else
+      {console.error("Query too short");}
+    const search_url = "/routes/search";
+    try{
+      const response = await fetch(FRONTEND_URL + search_url,{
+        method: "GET",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(query),
+        credentials: "include",
+      });
+
+      const data: Dream[] = await response.json();
+      setIsSearching(true);
+
+      if (!response.ok) {
+        setIsSearching(false);
+        throw new Error("Failed to save dream card");
+      }
+
+      setVisibleDreams(data);
+
+    }catch(e){
+      console.error("Error with search.", e);
+    }
+    
+  }
+
+  function clearSearch(){
+    setIsSearching(false);
+    setVisibleDreams(allDreams);
+  }
+
   return (
     <>
       <Header />
@@ -181,9 +222,22 @@ export default function Home() {
           <AddDreamCard onClick={addCard}></AddDreamCard>
         </div>
 
+        <form>
+            <input 
+              type='search' 
+              placeholder="Search dreams" 
+              value={searchQuery} 
+              onChange={(e) => setSearchQuery(e.target.value)}
+            />
+            
+            <button onSubmit={(e) => {e.preventDefault; searchDreams(searchQuery); }}>Search</button>
+            <button onSubmit={(e) => {e.preventDefault; clearSearch;}}>Clear</button>
+        </form>
+
+
         <div className={styles.cardList}>
           <Cards
-            cards={cards}
+            cards={visibleDreams}
             deleteCard={(id) => deleteCard(id)}
             editCard={(card) => {
               selectCard(card);
