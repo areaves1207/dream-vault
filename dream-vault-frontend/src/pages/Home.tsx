@@ -158,18 +158,20 @@ export default function Home() {
     }
   }
 
-  async function searchDreams(query:string) {
-    if(searchQuery.length > 2)
-      {searchDreams(searchQuery);}
-    else
-      {console.error("Query too short");}
-    const search_url = "/routes/search";
+  async function searchDreams() {
+    const query=searchQuery;
+    if(query.length <= 2){
+      console.log("Search query too short");
+      return;
+    }
+
+    const search_url = FRONTEND_URL + "/routes/dreams/search?q=" + query;
     try{
-      const response = await fetch(FRONTEND_URL + search_url,{
+
+
+      const response = await fetch(search_url, {
         method: "GET",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(query),
-        credentials: "include",
+        credentials: "include"
       });
 
       const data: Dream[] = await response.json();
@@ -183,7 +185,7 @@ export default function Home() {
       setVisibleDreams(data);
 
     }catch(e){
-      console.error("Error with search.", e);
+      console.error("Error with search: ", e);
     }
     
   }
@@ -222,7 +224,7 @@ export default function Home() {
           <AddDreamCard onClick={addCard}></AddDreamCard>
         </div>
 
-        <form>
+        <div>
             <input 
               type='search' 
               placeholder="Search dreams" 
@@ -230,9 +232,9 @@ export default function Home() {
               onChange={(e) => setSearchQuery(e.target.value)}
             />
             
-            <button onSubmit={(e) => {e.preventDefault; searchDreams(searchQuery); }}>Search</button>
-            <button onSubmit={(e) => {e.preventDefault; clearSearch;}}>Clear</button>
-        </form>
+            <button onClick={(e) => {e.preventDefault; searchDreams(); }}>Search</button>
+            <button onClick={(e) => {e.preventDefault; clearSearch;}}>Clear</button>
+        </div>
 
 
         <div className={styles.cardList}>
