@@ -211,7 +211,7 @@ function issueToken(user, res){
     const token = jwt.sign(
         { id: user.id, email: user.email }, //payload
         process.env.JWT_SECRET,             //sercret key
-        { expiresIn: "1h" }                 //options
+        { expiresIn: "30d" }                 //options
     ); 
     console.log("Token generated");
 
