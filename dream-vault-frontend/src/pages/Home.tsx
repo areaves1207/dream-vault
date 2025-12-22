@@ -160,6 +160,7 @@ export default function Home() {
     const query=searchQuery;
     if(query.length <= 2){
       console.log("Search query too short");
+      clearSearch();
       return;
     }
 
@@ -173,7 +174,8 @@ export default function Home() {
       const data: Dream[] = await response.json();
 
       if (!response.ok) {
-        console.log("Fail:", response);
+        console.log("Search failed:", response);
+        clearSearch();
         throw new Error("Failed to search for dreams");
       }
 
@@ -224,7 +226,7 @@ export default function Home() {
               type='search' 
               placeholder="Search dreams" 
               value={searchQuery} 
-              onChange={(e) => setSearchQuery(e.target.value)}
+              onChange={(e) => {setSearchQuery(e.target.value); if(e.target.value = ""){clearSearch();}}}
             />
             
             <button onClick={(e) => {e.preventDefault; searchDreams(); }}>Search</button>

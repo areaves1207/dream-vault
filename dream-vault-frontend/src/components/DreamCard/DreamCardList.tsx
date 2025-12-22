@@ -9,6 +9,9 @@ type CardListProps = {
 };
 
 function DreamCardList({cards, editCard, deleteCard}:CardListProps){
+    if(cards.length === 0){
+        return(<p>No dreams found</p>);
+    }
     return(
         <div className={styles.cardList}>
         { 
@@ -26,6 +29,7 @@ function DreamCardList({cards, editCard, deleteCard}:CardListProps){
             )
             }
         </div>
+        
     )
 }
 
