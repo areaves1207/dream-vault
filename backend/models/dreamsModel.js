@@ -7,6 +7,14 @@ exports.getAllDreamsFromUser = async (user_id) => {
     return rows;
 };
 
+exports.searchDreams = async(query, user_id) => {
+    const [rows] = await db.query(
+        'SELECT * FROM dreams WHERE user_id=? AND (TITLE LIKE ? OR DESCRIPTION LIKE ?) ORDER BY created_at DESC',
+        [user_id, query, query]
+    );
+    return rows;
+}
+
 exports.getDreamFromID = async(dream_id) => {
     const[rows] = await db.query('SELECT * FROM dreams WHERE dream_id=?', [dream_id]);
     return rows[0];

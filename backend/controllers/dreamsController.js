@@ -9,6 +9,21 @@ exports.getAllDreams = async (req, res) => {
     }
 };
 
+exports.searchDreams = async(req, res) => {
+    try{
+        const q = '%'+req.query.q+'%'; //use %x% to search for any instance of x
+        const user_id = req.user.id;
+        if (!q || q === "") {
+            return res.status(400).json({ message: "Search query required" });
+        }
+
+        const dreams = await dreamsModel.searchDreams(q, user_id);
+        res.json(dreams);
+    }catch(err){
+        res.status(500).json({ error: err.message });
+    }
+}
+
 exports.getDreamFromID = async (req, res) => {
     try{
         const dream = await dreamsModel.getDreamFromID(req.params.id); //dream id, not the user

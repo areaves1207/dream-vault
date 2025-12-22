@@ -127,7 +127,7 @@ export default function Home() {
       });
 
       if (!response.ok) {
-        throw new Error("Failed to save dream card");
+        throw new Error("Failed to save/add dream card");
       }
 
       const res = await response.json();
@@ -148,7 +148,7 @@ export default function Home() {
       });
 
       if (!response.ok) {
-        throw new Error("Failed to save dream card");
+        throw new Error("Failed to edit/save dream card");
       }
 
       const res = await response.json();
@@ -165,10 +165,8 @@ export default function Home() {
       return;
     }
 
-    const search_url = FRONTEND_URL + "/routes/dreams/search?q=" + query;
+    const search_url = API_URL + "/dreams/search?q=" + query;
     try{
-
-
       const response = await fetch(search_url, {
         method: "GET",
         credentials: "include"
@@ -179,7 +177,8 @@ export default function Home() {
 
       if (!response.ok) {
         setIsSearching(false);
-        throw new Error("Failed to save dream card");
+        console.log("Fail:", response);
+        throw new Error("Failed to search for dreams");
       }
 
       setVisibleDreams(data);

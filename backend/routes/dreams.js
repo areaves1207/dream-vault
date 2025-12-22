@@ -3,9 +3,11 @@ const router = express.Router();
 const dreamsController  = require('../controllers/dreamsController');
 
 router.get('/', dreamsController.getAllDreams);
-router.get('/:id', dreamsController.getDreamFromID);
+// router.get('/:id', dreamsController.getDreamFromID);
 router.post('/add_dream', dreamsController.addDream);
 router.put('/edit_dream', dreamsController.editDream);
-router.delete('/delete_dream', dreamsController.deleteDream)
+router.delete('/delete_dream', dreamsController.deleteDream);
+
+router.get('/search', dreamsController.searchDreams);
 
 module.exports = router;
