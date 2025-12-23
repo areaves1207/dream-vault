@@ -161,17 +161,15 @@ exports.login = async (req, res) => {
 
 exports.verify = async (req, res) => {
     try{
-        console.log("Verifying token");
         const token = req.cookies.jwt;
 
         if (!token) {
-            console.log("Token not found");
+            console.error("Token not found");
             return res.status(401).json({ error: 'Token not found' });
         }
 
         const decoded = jwt.verify(token, process.env.JWT_SECRET);
         req.user = decoded;
-        console.log("Token decoded");
 
         return res.status(200).json({
             success: true,
