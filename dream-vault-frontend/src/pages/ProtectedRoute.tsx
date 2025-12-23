@@ -39,7 +39,7 @@ export default function ProtectedRoute({
     return (
       <Navigate
         to="/login"
-        state={{ message: "Please log in to access this page." }}
+        // state={{ message: "Session expired. Please log in to your account again." }}
         replace
       />
     );

@@ -6,9 +6,9 @@ export async function sendEmail(destinationAddress, id, token) {
         const verificationURL = `https://www.dreamvault.life/verify-email?id=${id}&token=${token}`
         const htmlbody = `
         <h1>DreamVault - Verify your email</h1>
-        <p>Welcome to DreamVault!</p>
+        <p>Welcome to Dreamvault!</p>
         <a href=${verificationURL}>Click here to verify your email</a>
-        <p>This link will expire in 20 minutes."</p>
+        <p>This link will expire in 20 minutes.</p>
         `
     
         const resend = new Resend(process.env.RESEND_SECRET);
@@ -16,7 +16,7 @@ export async function sendEmail(destinationAddress, id, token) {
         resend.emails.send({
         from: 'no-reply@dreamvault.life',
         to: destinationAddress,
-        subject: 'Activate your DreamVault account',
+        subject: 'Activate your Dreamvault account',
         html: htmlbody
         });
     }

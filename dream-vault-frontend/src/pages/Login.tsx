@@ -18,7 +18,7 @@ export default function Login() {
       <InputForm
         children={child}
         targeturl={target_url}
-        titleText="Login to your dreamvault account"
+        titleText="Login to your Dreamvault account"
         infoText="Don't have an account?"
         urlText="Sign up here!"
         linkurl={link_url}

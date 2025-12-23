@@ -10,7 +10,7 @@ export default function Login(){
         <div className={style.login}>
             <InputForm 
                 targeturl={target_url}
-                titleText="Register for a dreamvault account"
+                titleText="Register for a Dreamvault account"
                 infoText="Already have an account?"
                 urlText="Login here!"
                 linkurl={link_url}>
