@@ -1,11 +1,11 @@
 import { useNavigate } from "react-router-dom";
-import { useState } from "react";
+import { Children, useState } from "react";
 import { Link } from "react-router-dom";
 import style from "./LoginForm.module.css"
 
 
-export default function InputForm(props: {titleText: string, targeturl: string, infoText: string, urlText: string, linkurl: string}){
-    const { titleText, targeturl, infoText, urlText, linkurl } = props;
+export default function InputForm(props: {children?: React.ReactNode, titleText: string, targeturl: string, infoText: string, urlText: string, linkurl: string}){
+    const { children, titleText, targeturl, infoText, urlText, linkurl } = props;
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const navigate = useNavigate();
@@ -34,6 +34,7 @@ export default function InputForm(props: {titleText: string, targeturl: string, 
     return(
     <div className={style.loginForm}>
         <form className={style.form} onSubmit={handleSubmit} method="post">
+            <div className={style.children}>{children}</div>
             <p className={style.title}>{titleText}</p>
 
             <p>{infoText}</p>

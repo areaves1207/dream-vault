@@ -9,12 +9,14 @@ export default function Login() {
   const message = location.state?.message;
   const target_url = API_URL + "/routes/login";
   const link_url = FRONTEND_URL + "/register";
+  const child = (<div><h1>Welcome back!</h1></div>);
 
   return (
     <div className={style.login}>
       
       {message && <div className={style.error}>{message}</div>}
       <InputForm
+        children={child}
         targeturl={target_url}
         titleText="Login to your dreamvault account"
         infoText="Don't have an account?"

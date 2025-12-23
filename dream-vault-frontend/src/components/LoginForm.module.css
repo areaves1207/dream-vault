@@ -10,6 +10,10 @@
     font-weight: bolder;
 }
 
+.children{
+  margin:0; padding:0;
+}
+
 .form {
   display: flex;
   flex-direction: column;
@@ -19,7 +23,7 @@
   border-radius: 12px;
   box-shadow: 0 0 10px rgba(0,0,0,0.4);
   width: 300px;
- 
+  padding-top: 3vh;
 }
 
 .form label {
