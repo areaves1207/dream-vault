@@ -7,6 +7,7 @@ import styles from "./Home.module.css";
 import DreamInput from "../components/DreamInput.tsx";
 import AddDreamCard from "../components/NewDreamCard.tsx";
 import { API_URL } from "../config.ts";
+import StarsBackground from "../components/StarsBackground.tsx";
 
 export default function Home() {
   const url = API_URL + "/dreams/";
@@ -194,6 +195,7 @@ export default function Home() {
 
   return (
     <>
+    <StarsBackground/>
       <Header />
       {selectedCard && (
         <div className={styles.inputForm}>

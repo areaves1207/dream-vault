@@ -1,4 +1,5 @@
 .cardList{
+    opacity: 1;
     display:flex;
     flex-direction: column;
     flex-wrap: nowrap;
@@ -6,4 +7,6 @@
     gap: 10px;
     max-width: 50%;
     margin: 0 auto;
+    background-color: black;
+    padding-bottom: 2vh;
 }
