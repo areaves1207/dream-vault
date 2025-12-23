@@ -1,6 +1,7 @@
 import style from "./Register.module.css"
 import InputForm from "../components/InputForm"
 import { FRONTEND_URL, API_URL } from "../config"
+import StarsBackground from "../components/StarsBackground";
 
 export default function Login(){
     const target_url = API_URL + "/routes/register";
@@ -14,6 +15,7 @@ export default function Login(){
                 urlText="Login here!"
                 linkurl={link_url}>
             </InputForm>
+            <StarsBackground/>
         </div>
     )   
 }

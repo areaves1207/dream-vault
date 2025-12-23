@@ -2,6 +2,7 @@ import style from "./Login.module.css";
 import InputForm from "../components/InputForm";
 import { useLocation } from "react-router-dom";
 import { FRONTEND_URL, API_URL } from "../config.ts"
+import StarsBackground from "../components/StarsBackground.tsx";
 
 export default function Login() {
   const location = useLocation();
@@ -11,6 +12,7 @@ export default function Login() {
 
   return (
     <div className={style.login}>
+      
       {message && <div className={style.error}>{message}</div>}
       <InputForm
         targeturl={target_url}
@@ -19,6 +21,7 @@ export default function Login() {
         urlText="Sign up here!"
         linkurl={link_url}
       ></InputForm>
+      <StarsBackground/>
     </div>
   );
 }
