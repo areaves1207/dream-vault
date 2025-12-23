@@ -228,11 +228,11 @@ export default function Home() {
               type='search' 
               placeholder="Search dreams" 
               value={searchQuery} 
-              onChange={(e) => {setSearchQuery(e.target.value); if(e.target.value = ""){clearSearch();}}}
+              onChange={(e) => {e.preventDefault(); setSearchQuery(e.target.value); if(e.target.value === ""){clearSearch();}}}
             />
             
-            <button onClick={(e) => {e.preventDefault; searchDreams(); }}>Search</button>
-            <button onClick={(e) => {e.preventDefault; clearSearch();}}>Clear</button>
+            <button onClick={(e) => {e.preventDefault(); searchDreams(); }}>Search</button>
+            <button onClick={(e) => {e.preventDefault(); clearSearch();}}>Clear</button>
         </div>
 
 

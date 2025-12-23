@@ -40,6 +40,6 @@ export default function VerifyEmail(){
     }
 
     return(
-        <div>Verifying email...</div>
+        <div>Verifying account...</div>
     )   
 }
