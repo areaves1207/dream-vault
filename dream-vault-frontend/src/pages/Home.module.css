@@ -68,14 +68,14 @@
   padding: 10px;
   border: 2px solid white;
   position: fixed;
-  margin-top: 6vw;
+  margin-top: 18vh;
   margin-right: 70vw;
   margin-left: 5vw;
 }
 
 .searchComponent {
   position: fixed;
-  margin-top: 6vw;
+  margin-top: 18vh;
   margin-right: 5vw;
   margin-left: 70vw;
   display: flex;
