@@ -8,6 +8,7 @@ import DreamInput from "../components/DreamInput.tsx";
 import AddDreamCard from "../components/NewDreamCard.tsx";
 import { API_URL } from "../config.ts";
 import StarsBackground from "../components/StarsBackground.tsx";
+import DreamSearchCalendar from "../components/DreamSearchCalendar.tsx";
 
 export default function Home() {
   const url = API_URL + "/dreams/";
@@ -197,6 +198,7 @@ export default function Home() {
     <>
     <StarsBackground/>
       <Header />
+      <DreamSearchCalendar dreams={allDreams} onSelectDream={ (selectedDreams: Dream[])=> {setVisibleDreams(selectedDreams); } }></DreamSearchCalendar>
       {selectedCard && (
         <div className={styles.inputForm}>
           <DreamInput
