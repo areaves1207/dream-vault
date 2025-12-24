@@ -88,7 +88,9 @@ export default function Home() {
     }
 
     let db_card;
-    const isEdit = visibleDreams.some((card) => card.dream_id === editCard.dream_id);
+    const isEdit = visibleDreams.some(
+      (card) => card.dream_id === editCard.dream_id
+    );
 
     if (isEdit) {
       db_card = await EditDreamCard(editCard);
@@ -159,18 +161,18 @@ export default function Home() {
   }
 
   async function searchDreams() {
-    const query=searchQuery;
-    if(query.length <= 2){
+    const query = searchQuery;
+    if (query.length <= 2) {
       console.log("Search query too short");
       clearSearch();
       return;
     }
 
     const search_url = API_URL + "/dreams/search?q=" + query;
-    try{
+    try {
       const response = await fetch(search_url, {
         method: "GET",
-        credentials: "include"
+        credentials: "include",
       });
 
       const data: Dream[] = await response.json();
@@ -182,23 +184,20 @@ export default function Home() {
       }
 
       setVisibleDreams(data);
-
-    }catch(e){
+    } catch (e) {
       console.error("Error with search: ", e);
     }
-    
   }
 
-  function clearSearch(){
+  function clearSearch() {
     setSearchQuery("");
     setVisibleDreams(allDreams);
   }
 
   return (
     <>
-    <StarsBackground/>
+      <StarsBackground />
       <Header />
-      <DreamSearchCalendar dreams={allDreams} onSelectDream={ (selectedDreams: Dream[])=> {setVisibleDreams(selectedDreams); } }></DreamSearchCalendar>
       {selectedCard && (
         <div className={styles.inputForm}>
           <DreamInput
@@ -226,17 +225,43 @@ export default function Home() {
         </div>
 
         <div>
-            <input 
-              type='search' 
-              placeholder="Search dreams" 
-              value={searchQuery} 
-              onChange={(e) => {e.preventDefault(); setSearchQuery(e.target.value); if(e.target.value === ""){clearSearch();}}}
-            />
-            
-            <button onClick={(e) => {e.preventDefault(); searchDreams(); }}>Search</button>
-            <button onClick={(e) => {e.preventDefault(); clearSearch();}}>Clear</button>
-        </div>
+          <input
+            type="search"
+            placeholder="Search dreams"
+            value={searchQuery}
+            onChange={(e) => {
+              e.preventDefault();
+              setSearchQuery(e.target.value);
+              if (e.target.value === "") {
+                clearSearch();
+              }
+            }}
+          />
 
+          <button
+            onClick={(e) => {
+              e.preventDefault();
+              searchDreams();
+            }}
+          >
+            Search
+          </button>
+          <button
+            onClick={(e) => {
+              e.preventDefault();
+              clearSearch();
+            }}
+          >
+            Clear
+          </button>
+
+          <DreamSearchCalendar
+            dreams={allDreams}
+            onSelectDream={(selectedDreams: Dream[]) => {
+              setVisibleDreams(selectedDreams);
+            }}
+          />
+        </div>
 
         <div className={styles.cardList}>
           <Cards

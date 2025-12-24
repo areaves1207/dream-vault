@@ -43,6 +43,8 @@ export default function DreamSearchCalendar({
           const isoDate = (date as Date).toISOString().slice(0, 10);
           if (dreamDates.has(isoDate)) {
             onSelectDream(dreamDates.get(isoDate) as Dream[]);
+          } else {
+            onSelectDream([]);
           }
         }}
         tileContent={tileContent}
