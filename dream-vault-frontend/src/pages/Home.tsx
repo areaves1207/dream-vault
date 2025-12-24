@@ -216,13 +216,27 @@ export default function Home() {
             cancel={() => {
               deselectCard();
             }}
-          ></DreamInput>
+          />
         </div>
       )}
 
       <div className={styles.column}>
-        <div className={styles.addCard}>
-          <AddDreamCard onClick={addCard}></AddDreamCard>
+        {/* Top parts of the screen, under the header. called topper bc i cant think of better name */}
+        <div className={styles.topper}>
+          <div className={styles.sideTopper}>
+            <div
+              className={styles.optionButton}
+              onClick={() => setOpenCalendar(!openCalendar)}
+            >
+              &#128197;
+            </div>
+          </div>
+          <div className={styles.addCardTopper}>
+            <AddDreamCard onClick={addCard}></AddDreamCard>
+          </div>
+          <div className={styles.sideTopper}>
+            <div className={styles.optionButton}>&#x1F50E;</div>
+          </div>
         </div>
 
         <div>
@@ -255,13 +269,6 @@ export default function Home() {
           >
             Clear
           </button>
-
-          <p
-            className={styles.calendarIcon}
-            onClick={() => setOpenCalendar(!openCalendar)}
-          >
-            &#128197;
-          </p>
 
           {openCalendar && (
             <DreamSearchCalendar
