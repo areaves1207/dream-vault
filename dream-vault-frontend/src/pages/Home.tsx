@@ -232,6 +232,14 @@ export default function Home() {
                   setVisibleDreams(selectedDreams);
                 }}
               />
+              <button
+                onClick={(e) => {
+                  e.preventDefault();
+                  setVisibleDreams(allDreams);
+                }}
+              >
+                Clear
+              </button>
             </div>
           )}
 

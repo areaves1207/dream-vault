@@ -91,7 +91,7 @@
 .searchComponent input[type="search"] {
   padding: 0.6em 1.2em;
   border-radius: 20px;
-  border: 2px solid #00ffdd;
+  border: 2px solid var(--color-secondary);
   outline: none;
   font-size: 1.1em;
   width: 300px;
@@ -100,7 +100,7 @@
 }
 
 .searchComponent input[type="search"]::placeholder {
-  color: #ffffff;
+  color: white;
 }
 
 .buttonContainer {
