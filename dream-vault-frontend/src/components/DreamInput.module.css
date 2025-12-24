@@ -103,7 +103,6 @@
 }
 
 .calendarWrapper {
-    background-color: orange;;
     position: fixed;
     display: grid;
     place-items: center;
