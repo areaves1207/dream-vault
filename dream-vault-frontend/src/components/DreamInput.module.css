@@ -24,8 +24,7 @@
     
     font-size: xx-large;
     font-weight: bolder;
-    width: 80vw;
-
+    width: 80%;
 }
 
 .header{
@@ -35,14 +34,13 @@
 
     height: 15vh;
     max-height: 20vh;
-    /* width: 100vw; */
     margin-bottom: 10px;
     padding-left: 0;
     background-color: var(--color-background);
 }
 
 .calendarSelectArea{
-    width: 20vw;
+    width: 20%;
     padding: 0;
     margin: 0;
     margin-top: auto;
