@@ -18,19 +18,34 @@ export default function DreamInput({ card, save, cancel }: DreamInputProps) {
   const [calendarOpen, setCalendarOpen] = useState(false);
 
   return (
-    <div className={styles.dreamInput}>
-      {calendarOpen && (
-        <Calendar
-          className={styles.calendar}
-          selectRange={false}
-          onChange={(value) => {
-            setDate(value as Date);
-            setCalendarOpen(false);
-          }}
-          value={date}
-          minDetail="year"
-        />
+    <>
+    {calendarOpen && (
+        <>
+            <div
+      className={styles.clickBlocker}
+      onClick={() => {setCalendarOpen(false); console.log("HI");}}
+    />
+
+
+        <div
+      className={styles.calendarWrapper}
+      onClick={(e) => e.stopPropagation()}
+    >
+
+          <Calendar
+            className={styles.calendar}
+            selectRange={false}
+            onChange={(value) => {
+              setDate(value as Date);
+              setCalendarOpen(false);
+            }}
+            value={date}
+            minDetail="year"
+          /> 
+          </div>  </>
       )}
+
+    <div className={styles.dreamInput}>
       <div className={styles.header}>
         <input
           className={styles.title}
@@ -42,7 +57,7 @@ export default function DreamInput({ card, save, cancel }: DreamInputProps) {
         />
         <div
           className={styles.calendarSelectArea}
-          onClick={() => setCalendarOpen(true)}
+          onClick={() => setCalendarOpen(!calendarOpen)}
         >
           <p className={styles.calendarIcon}>&#128197;</p>
           <p className={styles.calendarText}>
@@ -77,5 +92,6 @@ export default function DreamInput({ card, save, cancel }: DreamInputProps) {
         </button>
       </div>
     </div>
+    </>
   );
 }

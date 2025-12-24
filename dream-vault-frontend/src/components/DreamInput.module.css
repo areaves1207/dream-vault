@@ -41,16 +41,6 @@
     background-color: var(--color-background);
 }
 
-.calendar{
-    
-    position: absolute;
-    z-index: 1000;
-    width: 50%;
-    margin: 25%;
-    border: white solid 2px;
-    padding: 3px;
-}
-
 .calendarSelectArea{
     width: 20vw;
     padding: 0;
@@ -102,4 +92,32 @@
 
 .calendarSelectArea:hover{
     cursor: pointer;
+}
+
+.clickBlocker {
+    position: fixed;
+    inset: 0;
+    z-index: 999;
+    width: 100vw;
+    height:100vh;
+}
+
+.calendarWrapper {
+    position: fixed;
+    height: 80%;
+    display: grid;
+    place-items: center;
+    z-index: 1000;
+    margin-left: 18vw;
+    margin-right: 18vw;
+    margin-top: 8vh;
+}
+
+.calendar {
+    background: black;
+    border: 2px solid white;
+
+    border: white solid 2px;
+    padding: 5px;
+    background-color: black;
 }
