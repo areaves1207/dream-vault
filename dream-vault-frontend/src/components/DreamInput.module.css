@@ -103,14 +103,14 @@
 }
 
 .calendarWrapper {
+    background-color: orange;;
     position: fixed;
-    height: 80%;
     display: grid;
     place-items: center;
     z-index: 1000;
     margin-left: 18vw;
     margin-right: 18vw;
-    margin-top: 8vh;
+    margin-top: 20vh;
 }
 
 .calendar {
