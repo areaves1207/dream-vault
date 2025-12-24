@@ -68,14 +68,14 @@
   padding: 10px;
   border: 2px solid white;
   position: fixed;
-  margin-top: 10vw;
+  margin-top: 6vw;
   margin-right: 70vw;
   margin-left: 5vw;
 }
 
 .searchComponent {
   position: fixed;
-  margin-top: 10vw;
+  margin-top: 6vw;
   margin-right: 5vw;
   margin-left: 70vw;
   display: flex;
@@ -94,7 +94,7 @@
   border: 2px solid var(--color-secondary);
   outline: none;
   font-size: 1.1em;
-  width: 300px;
+  width: 400px;
   background-color: #111;
   color: white;
 }
