@@ -99,7 +99,6 @@ export default function Home() {
     } else {
       db_card = await AddNewDreamCard(editCard);
     }
-    console.error("DATE:", db_card.date);
 
     setVisibleDreams((prevCards) => {
       if (prevCards.some((card) => card.dream_id === db_card.dream_id)) {
