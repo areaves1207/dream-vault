@@ -17,6 +17,7 @@ export default function Home() {
   const [visibleDreams, setVisibleDreams] = useState<Dream[]>([]);
   const [searchQuery, setSearchQuery] = useState("");
   const [openCalendar, setOpenCalendar] = useState(false);
+  const [openSearch, setOpenSearch] = useState(false);
 
   const [selectedCard, setSelectedCard] = useState<Dream | null>(null);
   useEffect(() => {
@@ -223,6 +224,17 @@ export default function Home() {
       <div className={styles.column}>
         {/* Top parts of the screen, under the header. called topper bc i cant think of better name */}
         <div className={styles.topper}>
+          {openCalendar && (
+            <div className={styles.calendarComponent}>
+              <DreamSearchCalendar
+                dreams={allDreams}
+                onSelectDream={(selectedDreams: Dream[]) => {
+                  setVisibleDreams(selectedDreams);
+                }}
+              />
+            </div>
+          )}
+
           <div className={styles.sideTopper}>
             <div
               className={styles.optionButton}
@@ -231,52 +243,54 @@ export default function Home() {
               &#128197;
             </div>
           </div>
+
           <div className={styles.addCardTopper}>
             <AddDreamCard onClick={addCard}></AddDreamCard>
           </div>
+
           <div className={styles.sideTopper}>
-            <div className={styles.optionButton}>&#x1F50E;</div>
+            <div
+              className={styles.optionButton}
+              onClick={() => setOpenSearch(!openSearch)}
+            >
+              &#x1F50E;
+            </div>
           </div>
-        </div>
-
-        <div>
-          <input
-            type="search"
-            placeholder="Search dreams"
-            value={searchQuery}
-            onChange={(e) => {
-              e.preventDefault();
-              setSearchQuery(e.target.value);
-              if (e.target.value === "") {
-                clearSearch();
-              }
-            }}
-          />
-
-          <button
-            onClick={(e) => {
-              e.preventDefault();
-              searchDreams();
-            }}
-          >
-            Search
-          </button>
-          <button
-            onClick={(e) => {
-              e.preventDefault();
-              clearSearch();
-            }}
-          >
-            Clear
-          </button>
-
-          {openCalendar && (
-            <DreamSearchCalendar
-              dreams={allDreams}
-              onSelectDream={(selectedDreams: Dream[]) => {
-                setVisibleDreams(selectedDreams);
-              }}
-            />
+          {openSearch && (
+            <div className={styles.searchComponent}>
+              <div>
+                <input
+                  type="search"
+                  placeholder="Search dreams"
+                  value={searchQuery}
+                  onChange={(e) => {
+                    e.preventDefault();
+                    setSearchQuery(e.target.value);
+                    if (e.target.value === "") {
+                      clearSearch();
+                    }
+                  }}
+                />
+              </div>
+              <div className={styles.searchButtons}>
+                <button
+                  onClick={(e) => {
+                    e.preventDefault();
+                    searchDreams();
+                  }}
+                >
+                  Search
+                </button>
+                <button
+                  onClick={(e) => {
+                    e.preventDefault();
+                    clearSearch();
+                  }}
+                >
+                  Clear
+                </button>
+              </div>
+            </div>
           )}
         </div>
 
