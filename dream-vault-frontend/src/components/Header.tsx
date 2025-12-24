@@ -17,7 +17,11 @@ function Header() {
   return (
     <header className={styles.header}>
       <div>
-        <img className={styles.logo} src={logo}></img>
+        <img
+          onClick={() => window.location.reload()}
+          className={styles.logo}
+          src={logo}
+        ></img>
       </div>
       <div className={styles.menuIcon}>Dreamvault</div>
       <a
