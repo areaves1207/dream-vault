@@ -16,6 +16,7 @@ export default function Home() {
   const [allDreams, setAllDreams] = useState<Dream[]>([]);
   const [visibleDreams, setVisibleDreams] = useState<Dream[]>([]);
   const [searchQuery, setSearchQuery] = useState("");
+  const [openCalendar, setOpenCalendar] = useState(false);
 
   const [selectedCard, setSelectedCard] = useState<Dream | null>(null);
   useEffect(() => {
@@ -255,12 +256,21 @@ export default function Home() {
             Clear
           </button>
 
-          <DreamSearchCalendar
-            dreams={allDreams}
-            onSelectDream={(selectedDreams: Dream[]) => {
-              setVisibleDreams(selectedDreams);
-            }}
-          />
+          <p
+            className={styles.calendarIcon}
+            onClick={() => setOpenCalendar(!openCalendar)}
+          >
+            &#128197;
+          </p>
+
+          {openCalendar && (
+            <DreamSearchCalendar
+              dreams={allDreams}
+              onSelectDream={(selectedDreams: Dream[]) => {
+                setVisibleDreams(selectedDreams);
+              }}
+            />
+          )}
         </div>
 
         <div className={styles.cardList}>
