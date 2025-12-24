@@ -9,6 +9,8 @@ import AddDreamCard from "../components/NewDreamCard.tsx";
 import { API_URL } from "../config.ts";
 import StarsBackground from "../components/StarsBackground.tsx";
 import DreamSearchCalendar from "../components/DreamSearchCalendar.tsx";
+import search_icon from "../assets/search_icon.png";
+import calendar_icon from "../assets/calendar_icon.png";
 
 export default function Home() {
   const url = API_URL + "/dreams/";
@@ -247,7 +249,7 @@ export default function Home() {
               className={styles.optionButton}
               onClick={() => setOpenCalendar(!openCalendar)}
             >
-              &#128197;
+              <img src={calendar_icon}></img>
             </div>
           </div>
 
@@ -260,7 +262,7 @@ export default function Home() {
               className={styles.optionButton}
               onClick={() => setOpenSearch(!openSearch)}
             >
-              &#x1F50E;
+              <img src={search_icon}></img>
             </div>
           </div>
           {openSearch && (
