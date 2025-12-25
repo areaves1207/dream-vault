@@ -9,6 +9,7 @@ export async function sendEmail(destinationAddress, id, token) {
         <p>Welcome to Dreamvault!</p>
         <a href=${verificationURL}>Click here to verify your account</a>
         <p>This link will expire in 20 minutes. Do not share this link. Do not reply to this email.</p>
+        <p>Do not store sensitive information on Dreamvault.</p>
         `
     
         const resend = new Resend(process.env.RESEND_SECRET);
