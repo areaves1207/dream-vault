@@ -5,6 +5,9 @@ When I have a dream I want to remember, I have always just texted it to my frien
 
 In my free time while I search for a software engineering job, I figured I might as well make an app that I could benefit from, while learning important lessons on development.
 
-This app currently uses React, Typescript, and CSS in the front end. Node.js + express are going on in the backend, and MySQL is used for the database.
+AWS is hosting this entire project. The frontend is managed through Cloudfront and S3, the backend uses Docker with Node.js on Elastic Beanstalk, and the MySQL db is stored on RDS. 
 
-The next steps are to containerize it and then host it with AWS.
+User passwords are hashed, but dream data is NOT encrypted yet. Do not store sensitive information on Dreamvault.
+
+Thanks for checking it out!
+https://www.dreamvault.life
