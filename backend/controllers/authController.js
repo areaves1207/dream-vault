@@ -27,11 +27,22 @@ exports.register = async (req, res) => {
             ...req.body,
             password: hashed_pass 
         }
+
+
         
         //insert user into DB
-        const user = await authModel.register(userData);
-        console.log("User added to DB");
-
+        let user = await authModel.getUserByEmail({ email: req.body.email });
+        if(!user){
+            //If user is not found, add them to db
+            user = await authModel.register(userData);
+            console.log("User added to DB");
+        }else{
+            //if the user exists, then we must check to see if theyre already verified
+            if(user.verified){
+                //user is verified, they shouldnt be registering again
+                throw new Error("User is already verified. Please log in");
+            }
+        }
 
         //not a typo. our token is the 64 char hash of this, then the hash of THAT is stored in DB
         const verification_token = hash_verification_token(String(user.id) + String(user.email));
