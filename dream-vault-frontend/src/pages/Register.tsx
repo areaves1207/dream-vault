@@ -13,7 +13,8 @@ export default function Login(){
                 titleText="Register for a Dreamvault account"
                 infoText="Already have an account?"
                 urlText="Login here!"
-                linkurl={link_url}>
+                linkurl={link_url}
+                navLink="/verification-awaiting">
             </InputForm>
             <StarsBackground/>
         </div>

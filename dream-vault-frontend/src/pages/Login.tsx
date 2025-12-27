@@ -22,6 +22,7 @@ export default function Login() {
         infoText="Don't have an account?"
         urlText="Sign up here!"
         linkurl={link_url}
+        navLink="/"
       ></InputForm>
       <StarsBackground/>
     </div>

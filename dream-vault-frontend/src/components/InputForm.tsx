@@ -4,8 +4,8 @@ import { Link } from "react-router-dom";
 import style from "./LoginForm.module.css"
 
 
-export default function InputForm(props: {children?: React.ReactNode, titleText: string, targeturl: string, infoText: string, urlText: string, linkurl: string}){
-    const { children, titleText, targeturl, infoText, urlText, linkurl } = props;
+export default function InputForm(props: {children?: React.ReactNode, titleText: string, targeturl: string, infoText: string, urlText: string, linkurl: string, navLink: string}){
+    const { children, titleText, targeturl, infoText, urlText, linkurl, navLink } = props;
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const navigate = useNavigate();
@@ -21,7 +21,7 @@ export default function InputForm(props: {children?: React.ReactNode, titleText:
         });
 
         if (response.ok) {
-            navigate("/");
+            navigate(navLink);
             setEmail("");
             setPassword("");
         } else {
