@@ -15,7 +15,7 @@ exports.register = async (req, res) => {
         }
 
         if(req.body.password.length < 8 || !(/[A-Z]/.test(req.body.password)) || !(/\d/.test(req.body.password))){
-            res.status(400).json({ error: "Password must contain at least 8, 1 capital, 1 number" });
+            res.status(400).json({ error: "Password must contain at least 8 characters. 1 capital, 1 number" });
             return;
         }
 
@@ -35,7 +35,6 @@ exports.register = async (req, res) => {
 
         //not a typo. our token is the 64 char hash of this, then the hash of THAT is stored in DB
         const verification_token = hash_verification_token(String(user.id) + String(user.email));
-        console.log("Verification token:", verification_token);
 
         //store time as UTC
         const expiresAt = new Date(Date.now() + 20 * 60 * 1000)
