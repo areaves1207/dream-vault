@@ -4,6 +4,7 @@ import EmailVerification from './pages/VerifyEmail';
 import Register from "./pages/Register";
 import ProtectedRoute from "./pages/ProtectedRoute"
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import AwaitingVerification from './components/AwaitingVerification';
 
 
 function App() {
@@ -13,6 +14,7 @@ function App() {
         <Route path="/login" element={<Login/>}/>
         <Route path="/register" element={<Register/>}/>
         <Route path="/verify-email" element={<EmailVerification/>}/>
+        <Route path="/verification-awaiting" element={<AwaitingVerification/>}/>
 
         {/* Private routes. user must log in */}
         <Route path="/"           

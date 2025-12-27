@@ -15,7 +15,7 @@ exports.register = async (req, res) => {
         }
 
         if(req.body.password.length < 8 || !(/[A-Z]/.test(req.body.password)) || !(/\d/.test(req.body.password))){
-            res.status(400).json({ error: "Password must contain at least 8, 1 capital, 1 number" });
+            res.status(400).json({ error: "Password must contain at least 8 characters. 1 capital, 1 number" });
             return;
         }
 

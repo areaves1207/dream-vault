@@ -34,7 +34,7 @@ export default function VerifyEmail(){
             navigate('/');
         }else{
             console.error("Error validating");
-            navigate('/register');
+            navigate('/verification-awaiting');
         }
         
     }
