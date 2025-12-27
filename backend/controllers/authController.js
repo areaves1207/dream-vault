@@ -35,7 +35,6 @@ exports.register = async (req, res) => {
 
         //not a typo. our token is the 64 char hash of this, then the hash of THAT is stored in DB
         const verification_token = hash_verification_token(String(user.id) + String(user.email));
-        console.log("Verification token:", verification_token);
 
         //store time as UTC
         const expiresAt = new Date(Date.now() + 20 * 60 * 1000)
