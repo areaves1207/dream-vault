@@ -15,7 +15,7 @@ exports.register = async (req, res) => {
         }
 
         if(req.body.password.length < 8 || !(/[A-Z]/.test(req.body.password)) || !(/\d/.test(req.body.password))){
-            res.status(400).json({ error: "Password must contain at least 8 characters. 1 capital, 1 number" });
+            res.status(400).json({ error: "Password must contain at least 8 characters. 1 capital. 1 number" });
             return;
         }
 
@@ -43,6 +43,10 @@ exports.register = async (req, res) => {
                 throw new Error("User is already verified. Please log in");
             }
         }
+
+        //We hit the following from 2 conditions:
+        //  1) User is registering for the first time
+        //  2) User attempted registration but never verified
 
         //not a typo. our token is the 64 char hash of this, then the hash of THAT is stored in DB
         const verification_token = hash_verification_token(String(user.id) + String(user.email));
@@ -78,12 +82,10 @@ exports.register = async (req, res) => {
 }
 
 exports.verify_email = async(req, res) => {
-    console.log("Verify email reached");
     try{
         const token = req.body.token;
         
         if(!token){
-            console.error("Token not found in url query. Attached is the token received:", token);
             throw new Error("Token not found in query");
         }
 
