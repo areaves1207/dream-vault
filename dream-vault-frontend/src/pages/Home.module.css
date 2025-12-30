@@ -147,12 +147,14 @@
 
   .topper{
     display: grid;
-    grid-template-columns: auto 1fr auto;
+    grid-template-columns: auto auto;
     grid-template-areas: "btn1 add btn2";
     grid-template-columns: 1fr 1fr;
     grid-template-areas:
       "add add"
-      "btn1 btn2";
+      "btn1 btn2"
+      "search search"
+      "calendar calendar";
   }
 
   .addCardTopper{
@@ -187,5 +189,27 @@
     grid-area: btn1;
   }
 
+
+  .calendarComponent{
+    box-sizing: border-box;
+    grid-area: calendar;
+    position:relative;
+    justify-self: center;
+    padding: 10px;
+    width: 90%;
+    margin: auto;
+    margin-top: 5%;
+  }
+
+  .searchComponent {
+    box-sizing: border-box;
+    grid-area: search;
+    position:relative;
+    justify-self: center;
+    padding: 10px;
+    width: 90%;
+    margin: auto;
+    margin-top: 5%;
+  }
   
 }
