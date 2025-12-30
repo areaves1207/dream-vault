@@ -38,7 +38,7 @@ exports.addDream = async (req, res) =>{
         if(req.user.id == null || req.body == null){
             throw Error(message="ID OR BODY IS NULL. CHECK YOUR JWT STATUS");
         }
-        
+
         const newDream = await dreamsModel.addDream(req.user.id, req.body);
         res.status(201).json(newDream);
     }catch(err){
