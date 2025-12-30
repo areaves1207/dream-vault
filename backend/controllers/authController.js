@@ -227,7 +227,7 @@ function issueToken(user, res){
         httpOnly: true,
         secure: true,
         sameSite: 'none',
-        maxAge: 3600000,
+        maxAge: 2592000, //expires in 30 days
         path: "/"
     });
 
