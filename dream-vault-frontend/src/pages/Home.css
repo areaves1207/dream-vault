@@ -11,5 +11,5 @@ body{
 
 img{
   max-width: 50%;
-  height: auto;
+  max-height: 50%;
 }
