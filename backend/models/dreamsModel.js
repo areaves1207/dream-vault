@@ -5,7 +5,9 @@ exports.getAllDreamsFromUser = async (user_id) => {
     const[rows] = await db.query('SELECT * FROM dreams WHERE user_id =?',
         [user_id]
     );
-    return rows;
+
+    const dreams = decryptMultipleDreams(rows);
+    return dreams;
 };
 
 exports.searchDreams = async(query, user_id) => {
@@ -20,6 +22,7 @@ exports.getDreamFromID = async(dream_id) => {
     const[rows] = await db.query('SELECT * FROM dreams WHERE dream_id=?', [dream_id]);
 
     const dream = decryptDreamContent(rows[0]);
+    console.log("dream:", dream);
     return dream;    
 }
 
@@ -72,8 +75,13 @@ exports.deleteDream = async(user_id, {dream_id}) => {
 
 //Used when SELECT * from dreams, or any query including: encrypted_data, iv, auth_tag, id, date
 function decryptDreamContent(dream){
+    if (!dream.dream_content || !dream.iv || !dream.auth_tag) {
+      console.warn(`Skipping unencrypted or incomplete dream. ID: ${dream.id}`);
+      return;
+    }
+
     const decrypted_dream = decrypt(
-        dream.encrypted_data,
+        dream.dream_content,
         dream.iv,
         dream.auth_tag
     );
@@ -84,4 +92,8 @@ function decryptDreamContent(dream){
         description: decrypted_dream.description,
         date: dream.date
     };
+}
+
+function decryptMultipleDreams(dreams) {
+  return dreams.map(dream => decryptDreamContent(dream)).filter(Boolean);
 }
