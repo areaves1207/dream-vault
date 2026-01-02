@@ -52,3 +52,26 @@ export function decrypt( encryptedData: string, iv: string, authTag: string){
 
     return JSON.parse(decrypted.toString("utf8"));
 }
+
+
+export function tokenize(text: string): string[] {
+  return text
+    .toLowerCase()
+    .replace(/[^a-z0-9\s]/g, "")
+    .split(/\s+/)
+    .filter(word => word.length > 2);
+}
+
+
+const SEARCH_KEY = Buffer.from(
+  process.env.HASH_KEY!,
+  "base64"
+);
+
+export function hashToken(token: string): string {
+  return crypto
+    .createHmac("sha256", SEARCH_KEY)
+    .update(token)
+    .digest("hex");
+}
+

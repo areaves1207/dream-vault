@@ -11,7 +11,7 @@ exports.getAllDreams = async (req, res) => {
 
 exports.searchDreams = async(req, res) => {
     try{
-        const q = '%'+req.query.q+'%'; //use %x% to search for any instance of x
+        const q = req.query.q; //use %x% to search for any instance of x
         const user_id = req.user.id;
         if (!q || q === "") {
             return res.status(400).json({ message: "Search query required" });

@@ -1,5 +1,5 @@
 const db = require('../config/db');
-const { encrypt, decrypt } = require('../utils/encryption.ts');
+const { encrypt, decrypt, tokenize, hashToken } = require('../utils/encryption.ts');
 
 exports.getAllDreamsFromUser = async (user_id) => {
     const[rows] = await db.query('SELECT * FROM dreams WHERE user_id =?',
@@ -11,41 +11,78 @@ exports.getAllDreamsFromUser = async (user_id) => {
 };
 
 exports.searchDreams = async(query, user_id) => {
-    const [rows] = await db.query(
-        'SELECT * FROM dreams WHERE user_id=? AND (TITLE LIKE ? OR DESCRIPTION LIKE ?) ORDER BY created_at DESC',
-        [user_id, query, query]
-    );
-    return rows;
+    try{
+        const tokens = tokenize(query);
+        const hashes = tokens.map(hashToken);
+
+        if (hashes.length === 0) return [];
+
+        const placeholders = hashes.map(() => "?").join(",");
+
+        const [rows] = await db.query(
+            `
+            SELECT DISTINCT d.*
+            FROM dreams d
+            JOIN dream_search_index idx ON d.dream_id = idx.dream_id
+            WHERE d.user_id = ?
+                AND idx.token_hash IN (${placeholders})
+            `,
+        [user_id, ...hashes]
+        );
+
+        dreams = decryptMultipleDreams(rows);
+
+        return dreams;
+    }catch(error){
+        console.error("Error in searching dreams", error);
+    }
 }
 
 exports.getDreamFromID = async(dream_id) => {
     const[rows] = await db.query('SELECT * FROM dreams WHERE dream_id=?', [dream_id]);
 
     const dream = decryptDreamContent(rows[0]);
-    return dream;    
+    return dream;
 }
 
 exports.addDream = async(user_id, {title, description, date}) => {
-    const d = new Date(date);
-    const dateString = d.toISOString().split('T')[0];
+    try{
+        const d = new Date(date);
+        const dateString = d.toISOString().split('T')[0];
 
-    const encrypted_content = encrypt({title, description}); 
-    const content = encrypted_content.encryptedData;
-    const iv = encrypted_content.iv;
-    const auth_tag = encrypted_content.auth_tag;
+        const encrypted_content = encrypt({title, description}); 
+        const content = encrypted_content.encryptedData;
+        const iv = encrypted_content.iv;
+        const auth_tag = encrypted_content.auth_tag;
 
-    const[result] = await db.query(
-        `INSERT INTO dreams (user_id, dream_content, iv, auth_tag, date)
-                                VALUES (?, ?, ?, ?, ?)`, 
-        [user_id, content, iv, auth_tag, dateString]
-    );
+        const[result] = await db.query(
+            `INSERT INTO dreams (user_id, dream_content, iv, auth_tag, date)
+                                    VALUES (?, ?, ?, ?, ?)`, 
+            [user_id, content, iv, auth_tag, dateString]
+        );
 
-    return {
-        dream_id: result.insertId,
-        title,
-        description,
-        date
-    };
+        dream_id = await result.insertId;
+
+        //add the hashed tokenized title + desc
+        const tokens = tokenize(title + description);
+        const values = tokens.map(token => [dream_id, hashToken(token)]);
+
+        await db.query(
+            `INSERT INTO dream_search_index (dream_id, token_hash) VALUES ?`,
+            [values]
+        )
+
+
+        return {
+            dream_id: dream_id,
+            title,
+            description,
+            date
+        };
+    }
+    catch(error){
+        console.error("Error adding dream:", error);
+    }
 }
 
 exports.editDream = async(user_id, {dream_id, title, description, date}) => {
