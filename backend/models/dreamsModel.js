@@ -1,5 +1,5 @@
 const db = require('../config/db');
-const { encrypt, decrypt, tokenize, hashToken } = require('../utils/encryption.ts');
+const { encrypt, decrypt, tokenize, hashToken } = require('../utils/encryption.js');
 
 exports.getAllDreamsFromUser = async (user_id) => {
     const[rows] = await db.query('SELECT * FROM dreams WHERE user_id =?',
