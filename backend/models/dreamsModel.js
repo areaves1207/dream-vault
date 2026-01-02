@@ -14,10 +14,11 @@ exports.searchDreams = async(query, user_id) => {
     try{
         const tokens = tokenize(query);
         const hashes = tokens.map(hashToken);
+        const token_count = hashes.length;
 
         if (hashes.length === 0) return [];
 
-        const placeholders = hashes.map(() => "?").join(",");
+        const placeholders = hashes.map(() => "?").join(","); //add x number of '?'s depending on # of terms
 
         const [rows] = await db.query(
             `
@@ -26,8 +27,11 @@ exports.searchDreams = async(query, user_id) => {
             JOIN dream_search_index idx ON d.dream_id = idx.dream_id
             WHERE d.user_id = ?
                 AND idx.token_hash IN (${placeholders})
+            GROUP BY d.dream_id
+            HAVING COUNT(DISTINCT idx.token_hash) = ?
+            ORDER BY created_at
             `,
-        [user_id, ...hashes]
+        [user_id, ...hashes, token_count]
         );
 
         dreams = decryptMultipleDreams(rows);
@@ -64,13 +68,13 @@ exports.addDream = async(user_id, {title, description, date}) => {
         dream_id = await result.insertId;
 
         //add the hashed tokenized title + desc
-        const tokens = tokenize(title + description);
+        const tokens = tokenize(title + " " + description);
         const values = tokens.map(token => [dream_id, hashToken(token)]);
 
         await db.query(
             `INSERT INTO dream_search_index (dream_id, token_hash) VALUES ?`,
             [values]
-        )
+        );
 
 
         return {
