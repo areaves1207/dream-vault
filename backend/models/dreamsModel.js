@@ -131,7 +131,7 @@ function decryptDreamContent(dream){
     );
 
     return {
-        dream_id: dream.id,
+        dream_id: dream.dream_id,
         title: decrypted_dream.title,
         description: decrypted_dream.description,
         date: dream.date
