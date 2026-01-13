@@ -5,9 +5,9 @@ const {verifyToken} = require('./middleware/authMiddleware');
 const cookieParser = require("cookie-parser");
 
 const allowed_origins=[
-    'http://dreamvault-frontend.s3-website-us-west-2.amazonaws.com',
-    'https://dreamvault-frontend.s3-website-us-west-2.amazonaws.com',
-    'https://dh1zsuurlerfc.cloudfront.net',
+    'http://dreamvault2-frontend.s3-website-us-west-2.amazonaws.com',
+    'https://dreamvault2-frontend.s3-website-us-west-2.amazonaws.com',
+    'https://d12w4x2sd94en2.cloudfront.net',
     'http://localhost:5173',
     'https://dreamvault.life',
     'https://www.dreamvault.life'
