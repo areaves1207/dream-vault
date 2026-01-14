@@ -7,7 +7,7 @@ In my free time while I search for a software engineering job, I figured I might
 
 AWS is hosting this entire project. The frontend is managed through Cloudfront and S3, the backend uses Docker with Node.js on Elastic Beanstalk, and the MySQL db is stored on RDS. 
 
-User passwords are hashed, but dream data is NOT encrypted yet. Do not store sensitive information on Dreamvault.
+User passwords are hashed and dream data is encrypted with AES-256 for security.
 
 Thanks for checking it out!
 https://www.dreamvault.life
