@@ -5,9 +5,11 @@ When I have a dream I want to remember, I have always just texted it to my frien
 
 In my free time while I search for a software engineering job, I figured I might as well make an app that I could benefit from, while learning important lessons on development.
 
-AWS is hosting this entire project. The frontend is managed through Cloudfront and S3, the backend uses Docker with Node.js on Elastic Beanstalk, and the MySQL db is stored on RDS. 
+AWS is hosting this entire project. The frontend is managed through Cloudfront and S3, the backend uses Docker with Node.js on Elastic Beanstalk, and the MySQL db is stored on RDS. Actually, I've learned that RDS is super expensive and way overkill for my hosting needs. I have since run out of credits. Now, the db is hosted on Aiven for free. It may be less reliable, but it is more practical for my scale. 
 
 User passwords are hashed and dream data is encrypted with AES-256 for security.
+
+Feel free to reach out to me if you have any questions or comments
 
 Thanks for checking it out!
 https://www.dreamvault.life
